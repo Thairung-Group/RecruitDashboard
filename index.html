@@ -99,27 +99,39 @@
   <!-- Charts Section -->
   <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="glass rounded-2xl p-6 card-shadow">
-      <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-        <span>📋</span> สถานะใบคำขอ
-      </h3>
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+          <span>📋</span> สถานะใบคำขอ
+        </h3>
+        <span class="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">👆 คลิกเพื่อดูรายละเอียด</span>
+      </div>
       <canvas id="chartRequest" height="180"></canvas>
     </div>
     <div class="glass rounded-2xl p-6 card-shadow">
-      <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-        <span>🔄</span> สถานะการสรรหา
-      </h3>
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+          <span>🔄</span> สถานะการสรรหา
+        </h3>
+        <span class="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">👆 คลิกเพื่อดูรายละเอียด</span>
+      </div>
       <canvas id="chartRecruit" height="180"></canvas>
     </div>
     <div class="glass rounded-2xl p-6 card-shadow">
-      <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-        <span>⏱️</span> SLA Performance
-      </h3>
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+          <span>⏱️</span> SLA Performance
+        </h3>
+        <span class="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">👆 คลิกเพื่อดูรายละเอียด</span>
+      </div>
       <canvas id="chartSLA" height="180"></canvas>
     </div>
     <div class="glass rounded-2xl p-6 card-shadow">
-      <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-        <span>🏢</span> ตามหน่วยธุรกิจ (BU)
-      </h3>
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+          <span>🏢</span> ตามหน่วยธุรกิจ (BU)
+        </h3>
+        <span class="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">👆 คลิกเพื่อดูรายละเอียด</span>
+      </div>
       <canvas id="chartBU" height="180"></canvas>
     </div>
   </section>
@@ -175,6 +187,23 @@
   </section>
 
 </main>
+
+<!-- Modal for chart click detail -->
+<div id="detailModal" class="modal">
+  <div class="bg-white rounded-2xl max-w-5xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col">
+    <div class="bg-gradient-to-r from-pink-600 to-rose-600 text-white p-5 flex items-center justify-between">
+      <div>
+        <h3 class="text-2xl font-bold" id="detailTitle">รายละเอียด</h3>
+        <p class="text-pink-100 text-sm mt-1" id="detailSubtitle"></p>
+      </div>
+      <button onclick="closeDetailModal()" class="text-white hover:bg-white hover:bg-opacity-20 rounded-full w-10 h-10 flex items-center justify-center text-2xl">✕</button>
+    </div>
+    <div class="p-6 overflow-auto scroll-thin">
+      <div id="detailStats"></div>
+      <div id="detailContent" class="space-y-2"></div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal for person detail -->
 <div id="personModal" class="modal">
@@ -305,25 +334,37 @@ function renderCharts() {
   // Request status
   const reqCounts = {};
   DATA.forEach(r => { reqCounts[r.request_status||'-'] = (reqCounts[r.request_status||'-']||0)+1; });
+  const reqLabels = Object.keys(reqCounts);
   new Chart($('chartRequest'), {
     type: 'doughnut',
     data: {
-      labels: Object.keys(reqCounts),
+      labels: reqLabels,
       datasets: [{
         data: Object.values(reqCounts),
         backgroundColor: ['#10b981', '#ef4444', '#94a3b8'],
       }]
     },
-    options: {responsive: true, plugins: {legend:{position:'bottom'}}}
+    options: {
+      responsive: true,
+      plugins: {legend:{position:'bottom'}},
+      onHover: (e, els) => { e.native.target.style.cursor = els.length ? 'pointer' : 'default'; },
+      onClick: (e, els) => {
+        if (!els.length) return;
+        const label = reqLabels[els[0].index];
+        const list = DATA.filter(r => (r.request_status||'-') === label);
+        showRecordsDetail('📋 สถานะใบคำขอ: ' + label, 'จำนวน ' + list.length + ' ตำแหน่ง', list);
+      }
+    }
   });
-  
+
   // Recruit status
   const recCounts = {};
   DATA.forEach(r => { recCounts[r.recruit_status||'-'] = (recCounts[r.recruit_status||'-']||0)+1; });
+  const recLabels = Object.keys(recCounts);
   new Chart($('chartRecruit'), {
     type: 'bar',
     data: {
-      labels: Object.keys(recCounts),
+      labels: recLabels,
       datasets: [{
         label: 'จำนวน',
         data: Object.values(recCounts),
@@ -331,9 +372,20 @@ function renderCharts() {
         borderRadius: 8
       }]
     },
-    options: {responsive: true, plugins: {legend:{display:false}}, scales:{y:{beginAtZero:true}}}
+    options: {
+      responsive: true,
+      plugins: {legend:{display:false}},
+      scales:{y:{beginAtZero:true}},
+      onHover: (e, els) => { e.native.target.style.cursor = els.length ? 'pointer' : 'default'; },
+      onClick: (e, els) => {
+        if (!els.length) return;
+        const label = recLabels[els[0].index];
+        const list = DATA.filter(r => (r.recruit_status||'-') === label);
+        showRecordsDetail('🔄 สถานะการสรรหา: ' + label, 'จำนวน ' + list.length + ' ตำแหน่ง', list);
+      }
+    }
   });
-  
+
   // SLA
   const slaCounts = {'ไม่เกิน':0, 'เกิน':0, 'รอประเมิน':0};
   DATA.forEach(r => {
@@ -341,28 +393,43 @@ function renderCharts() {
     else if (r.lead_time === 'เกิน') slaCounts['เกิน']++;
     else slaCounts['รอประเมิน']++;
   });
+  const slaLabels = Object.keys(slaCounts);
   new Chart($('chartSLA'), {
     type: 'pie',
     data: {
-      labels: Object.keys(slaCounts),
+      labels: slaLabels,
       datasets: [{
         data: Object.values(slaCounts),
         backgroundColor: ['#10b981', '#ef4444', '#94a3b8'],
       }]
     },
-    options: {responsive: true, plugins: {legend:{position:'bottom'}}}
+    options: {
+      responsive: true,
+      plugins: {legend:{position:'bottom'}},
+      onHover: (e, els) => { e.native.target.style.cursor = els.length ? 'pointer' : 'default'; },
+      onClick: (e, els) => {
+        if (!els.length) return;
+        const label = slaLabels[els[0].index];
+        let list;
+        if (label === 'ไม่เกิน') list = DATA.filter(r => r.lead_time === 'ไม่เกิน');
+        else if (label === 'เกิน') list = DATA.filter(r => r.lead_time === 'เกิน');
+        else list = DATA.filter(r => r.lead_time !== 'ไม่เกิน' && r.lead_time !== 'เกิน');
+        showRecordsDetail('⏱️ SLA: ' + label, 'จำนวน ' + list.length + ' ตำแหน่ง', list);
+      }
+    }
   });
-  
+
   // BU
   const buCounts = {};
-  DATA.forEach(r => { 
+  DATA.forEach(r => {
     const bu = r.bu||'อื่นๆ';
-    buCounts[bu] = (buCounts[bu]||0)+1; 
+    buCounts[bu] = (buCounts[bu]||0)+1;
   });
+  const buLabels = Object.keys(buCounts);
   new Chart($('chartBU'), {
     type: 'bar',
     data: {
-      labels: Object.keys(buCounts),
+      labels: buLabels,
       datasets: [{
         label: 'ตำแหน่ง',
         data: Object.values(buCounts),
@@ -370,8 +437,95 @@ function renderCharts() {
         borderRadius: 8
       }]
     },
-    options: {indexAxis:'y', responsive: true, plugins: {legend:{display:false}}, scales:{x:{beginAtZero:true}}}
+    options: {
+      indexAxis:'y',
+      responsive: true,
+      plugins: {legend:{display:false}},
+      scales:{x:{beginAtZero:true}},
+      onHover: (e, els) => { e.native.target.style.cursor = els.length ? 'pointer' : 'default'; },
+      onClick: (e, els) => {
+        if (!els.length) return;
+        const label = buLabels[els[0].index];
+        const list = DATA.filter(r => (r.bu||'อื่นๆ') === label);
+        showRecordsDetail('🏢 หน่วยธุรกิจ (BU): ' + label, 'จำนวน ' + list.length + ' ตำแหน่ง', list);
+      }
+    }
   });
+}
+
+// Generic detail modal for chart clicks
+function showRecordsDetail(title, subtitle, list) {
+  $('detailTitle').textContent = title;
+  $('detailSubtitle').textContent = subtitle;
+
+  // Build summary stats
+  const byPerson = {};
+  const byStatus = {};
+  let overdue = 0;
+  list.forEach(r => {
+    byPerson[r.responsible] = (byPerson[r.responsible]||0)+1;
+    byStatus[r.recruit_status||'-'] = (byStatus[r.recruit_status||'-']||0)+1;
+    if (r.lead_time === 'เกิน') overdue++;
+  });
+
+  const personChips = Object.entries(byPerson).map(([k,v]) =>
+    `<span class="badge bg-indigo-100 text-indigo-700 mr-1 mb-1">${k}: ${v}</span>`).join('');
+
+  $('detailStats').innerHTML = `
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+      <div class="bg-indigo-50 p-3 rounded-xl">
+        <div class="text-xs text-indigo-600 font-medium">รวม</div>
+        <div class="text-2xl font-bold text-indigo-700">${list.length}</div>
+      </div>
+      <div class="bg-red-50 p-3 rounded-xl">
+        <div class="text-xs text-red-600 font-medium">เกิน SLA</div>
+        <div class="text-2xl font-bold text-red-700">${overdue}</div>
+      </div>
+      <div class="bg-purple-50 p-3 rounded-xl">
+        <div class="text-xs text-purple-600 font-medium">ผู้รับผิดชอบ</div>
+        <div class="text-2xl font-bold text-purple-700">${Object.keys(byPerson).length}</div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="text-xs text-gray-500 mb-1">แยกตามผู้รับผิดชอบ:</div>
+      <div>${personChips}</div>
+    </div>
+  `;
+
+  if (list.length === 0) {
+    $('detailContent').innerHTML = '<div class="text-center py-8 text-gray-400">ไม่พบรายการ</div>';
+  } else {
+    $('detailContent').innerHTML = list.map(r => `
+      <div class="border border-gray-200 rounded-xl p-4 hover:bg-gray-50 fade-in">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="badge bg-indigo-100 text-indigo-700">#${r.no}</span>
+          <span class="badge bg-pink-100 text-pink-700">👤 ${r.responsible}</span>
+          <span class="badge bg-purple-100 text-purple-700">${r.bu||'-'}</span>
+          ${getReqStatusBadge(r.request_status)}
+          ${getRecruitBadge(r.recruit_status)}
+          ${getSLABadge(r.lead_time, r.days_remaining)}
+        </div>
+        <div class="font-bold text-gray-800 mt-2 text-base">${r.position||'-'}</div>
+        <div class="text-sm text-gray-600 mt-1">🏢 ${r.department||'-'}</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-3 text-xs">
+          <div><span class="text-gray-500">ใบคำขอ:</span> <span class="font-medium">${r.req_no||'-'}</span></div>
+          <div><span class="text-gray-500">วันที่ร้องขอ:</span> <span class="font-medium">${r.request_date||'-'}</span></div>
+          <div><span class="text-gray-500">SLA:</span> <span class="font-medium">${r.sla||'-'} วัน</span></div>
+          <div><span class="text-gray-500">วันคงเหลือ:</span> ${getDaysRemainingDisplay(r.days_remaining)}</div>
+          <div><span class="text-gray-500">วันต้องปิด:</span> <span class="font-medium">${r.must_close_date||'-'}</span></div>
+          <div><span class="text-gray-500">พนักงาน:</span> <span class="font-medium">${r.employee_name||'-'}</span></div>
+          <div><span class="text-gray-500">ประเภท:</span> <span class="font-medium">${r.employment_type||'-'}</span></div>
+          <div><span class="text-gray-500">โครงสร้าง:</span> <span class="font-medium">${r.structure_type||'-'}</span></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  $('detailModal').classList.add('active');
+}
+
+function closeDetailModal() {
+  $('detailModal').classList.remove('active');
 }
 
 // Filters
@@ -526,6 +680,17 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 $('personModal').addEventListener('click', (e) => {
   if (e.target.id === 'personModal') closeModal();
+});
+
+$('detailModal').addEventListener('click', (e) => {
+  if (e.target.id === 'detailModal') closeDetailModal();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeDetailModal();
+  }
 });
 
 // Filter events
