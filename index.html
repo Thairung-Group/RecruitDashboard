@@ -3,786 +3,548 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TVP Recruitment Hub — HR Dashboard 2569</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>HR Recruitment Dashboard - TVP 2569</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --primary: #1e40af;
-    --primary-dark: #1e3a8a;
-    --primary-light: #3b82f6;
-    --accent: #6366f1;
-    --success: #059669;
-    --warning: #d97706;
-    --danger: #dc2626;
-    --gray-50: #f9fafb;
-    --gray-100: #f3f4f6;
-    --gray-200: #e5e7eb;
-    --gray-300: #d1d5db;
-    --gray-400: #9ca3af;
-    --gray-500: #6b7280;
-    --gray-600: #4b5563;
-    --gray-700: #374151;
-    --gray-800: #1f2937;
-    --gray-900: #111827;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow: 0 4px 12px rgba(0,0,0,0.06);
-    --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
-    --shadow-xl: 0 20px 50px rgba(30,64,175,0.12);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-  body {
-    font-family: 'Inter', 'Sarabun', 'Segoe UI', sans-serif;
-    background: var(--gray-50);
-    color: var(--gray-800);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; text-decoration: none; }
-
-  /* === NAVBAR === */
-  .navbar {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(20px) saturate(1.5);
-    -webkit-backdrop-filter: blur(20px) saturate(1.5);
-    border-bottom: 1px solid var(--gray-200);
-  }
-  .nav-inner {
-    max-width: 1280px; margin: 0 auto;
-    padding: 14px 28px;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 28px;
-  }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; color: var(--gray-900); }
-  .brand .logo {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-weight: 800; font-size: 18px;
-    box-shadow: 0 4px 12px rgba(99,102,241,0.3);
-  }
-  .brand small { display: block; font-size: 11px; color: var(--gray-500); font-weight: 500; }
-  .nav-links { display: flex; gap: 4px; }
-  .nav-links a {
-    padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 600;
-    color: var(--gray-600); transition: all 0.2s;
-  }
-  .nav-links a:hover { background: var(--gray-100); color: var(--primary); }
-  .nav-links a.active { background: var(--primary); color: white; }
-  .nav-cta {
-    padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
-    background: linear-gradient(135deg, var(--primary), var(--accent)); color: white;
-    box-shadow: var(--shadow);
-  }
-  .nav-cta:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
-
-  /* === HERO === */
-  .hero {
-    background: linear-gradient(135deg, #1e3a8a 0%, #312e81 50%, #4338ca 100%);
-    color: white;
-    padding: 60px 28px 70px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: ''; position: absolute; top: -50%; right: -10%;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(99,102,241,0.4), transparent 70%);
-    pointer-events: none;
-  }
-  .hero::after {
-    content: ''; position: absolute; bottom: -30%; left: -5%;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(59,130,246,0.3), transparent 70%);
-    pointer-events: none;
-  }
-  .hero-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 2; }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 6px 14px; border-radius: 999px;
-    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
-    font-size: 13px; font-weight: 500; margin-bottom: 16px;
-    backdrop-filter: blur(10px);
-  }
-  .hero-tag .dot { width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 12px #34d399; }
-  .hero h1 { font-size: 44px; font-weight: 800; line-height: 1.15; margin-bottom: 14px; letter-spacing: -0.5px; }
-  .hero h1 .accent { background: linear-gradient(90deg, #fbbf24, #f59e0b); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .hero p { font-size: 17px; opacity: 0.85; max-width: 640px; margin-bottom: 32px; }
-
-  .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; max-width: 980px; }
-  .stat-pill {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.18);
-    backdrop-filter: blur(10px);
-    border-radius: 14px; padding: 18px 20px;
-    transition: all 0.25s;
-  }
-  .stat-pill:hover { background: rgba(255,255,255,0.16); transform: translateY(-2px); }
-  .stat-pill .label { font-size: 12px; opacity: 0.75; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
-  .stat-pill .value { font-size: 36px; font-weight: 800; margin-top: 4px; line-height: 1; }
-  .stat-pill .value.danger { color: #fca5a5; }
-  .stat-pill .value.success { color: #6ee7b7; }
-  .stat-pill .value.warning { color: #fcd34d; }
-  .stat-pill .delta { font-size: 12px; opacity: 0.7; margin-top: 4px; }
-
-  /* === MAIN === */
-  main { max-width: 1280px; margin: 0 auto; padding: 0 28px; }
-  section.block { padding: 56px 0; }
-  .section-head { margin-bottom: 28px; }
-  .section-eyebrow {
-    display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
-    text-transform: uppercase; color: var(--primary); margin-bottom: 8px;
-  }
-  .section-head h2 {
-    font-size: 30px; font-weight: 800; color: var(--gray-900);
-    letter-spacing: -0.4px; margin-bottom: 6px;
-  }
-  .section-head p { color: var(--gray-500); font-size: 15px; max-width: 700px; }
-
-  /* Cards */
-  .card {
-    background: white; border-radius: 16px; padding: 24px;
-    box-shadow: var(--shadow); border: 1px solid var(--gray-200);
-  }
-
-  /* === HR TEAM === */
-  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-  .team-card {
-    background: white; border: 2px solid var(--gray-200); border-radius: 16px; padding: 22px;
-    cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
-  }
-  .team-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
-  }
-  .team-card:hover { border-color: var(--primary-light); transform: translateY(-4px); box-shadow: var(--shadow-xl); }
-  .team-card:hover::before { transform: scaleX(1); }
-  .team-card.active { border-color: var(--primary); background: linear-gradient(135deg, #eff6ff, #e0e7ff); }
-  .team-card.active::before { transform: scaleX(1); }
-  .team-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .avatar {
-    width: 52px; height: 52px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), #8b5cf6);
-    color: white; display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 20px;
-    box-shadow: 0 6px 14px rgba(99,102,241,0.3);
-  }
-  .team-name { font-size: 17px; font-weight: 700; color: var(--gray-900); }
-  .team-role { font-size: 12px; color: var(--gray-500); margin-top: 1px; }
-  .team-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
-  .team-stat { text-align: left; padding: 8px 10px; background: var(--gray-50); border-radius: 8px; }
-  .team-stat .num { font-size: 22px; font-weight: 800; color: var(--gray-900); line-height: 1; }
-  .team-stat .num.danger { color: var(--danger); }
-  .team-stat .num.success { color: var(--success); }
-  .team-stat .lbl { font-size: 10px; color: var(--gray-500); margin-top: 2px; }
-  .team-cta { font-size: 12px; color: var(--primary); margin-top: 12px; font-weight: 600; }
-  .team-cta::after { content: ' →'; transition: transform 0.2s; display: inline-block; }
-  .team-card:hover .team-cta::after { transform: translateX(3px); }
-
-  /* Detail Panel */
-  #detail-panel {
-    margin-top: 24px; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-    border-left: 4px solid var(--warning);
-    border-radius: 14px; padding: 24px;
-    display: none; box-shadow: var(--shadow);
-  }
-  #detail-panel.show { display: block; animation: slideDown 0.4s ease; }
-  @keyframes slideDown { from { opacity:0; transform: translateY(-12px); } to {opacity:1; transform:translateY(0);} }
-  #detail-title { font-size: 18px; font-weight: 700; color: #92400e; margin-bottom: 16px; display:flex; align-items:center; gap:10px; }
-  .pending-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
-  .pending-item {
-    background: white; padding: 16px; border-radius: 12px;
-    border-left: 4px solid var(--st-color, var(--gray-400));
-    box-shadow: var(--shadow-sm);
-  }
-  .pending-pos { font-weight: 700; color: var(--gray-900); font-size: 14px; margin-bottom: 4px; }
-  .pending-dept { font-size: 12px; color: var(--gray-500); margin-bottom: 10px; }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip {
-    font-size: 11px; padding: 3px 10px; border-radius: 999px;
-    background: var(--gray-100); color: var(--gray-600); font-weight: 500;
-  }
-  .chip.bu { background: #e0e7ff; color: #3730a3; }
-  .chip.recruiting { background: #fef3c7; color: #92400e; }
-  .chip.hired { background: #d1fae5; color: #065f46; }
-  .chip.canceled { background: #fee2e2; color: #991b1b; }
-  .chip.negotiating { background: #ede9fe; color: #5b21b6; }
-  .chip.sending { background: #dbeafe; color: #1e40af; }
-  .chip.danger { background: #fee2e2; color: #991b1b; }
-
-  /* === ANALYTICS === */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
-  .grid-3 { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 20px; }
-  @media (max-width: 1000px) { .grid-3 { grid-template-columns: 1fr; } }
-  .card h3 { font-size: 16px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
-  .card .sub { font-size: 13px; color: var(--gray-500); margin-bottom: 18px; }
-
-  .bar-row { display: grid; grid-template-columns: 130px 1fr 50px; align-items: center; gap: 10px; padding: 6px 0; font-size: 13px; }
-  .bar-bg { background: var(--gray-100); height: 22px; border-radius: 6px; overflow: hidden; }
-  .bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary-light), var(--accent)); border-radius: 6px; transition: width 0.7s; }
-  .bar-fill.recruiting { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-  .bar-fill.hired { background: linear-gradient(90deg, #10b981, #34d399); }
-  .bar-fill.canceled { background: linear-gradient(90deg, #ef4444, #f87171); }
-  .bar-fill.negotiating { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
-  .bar-fill.sending { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-  .bar-value { font-weight: 700; color: var(--gray-900); text-align: right; }
-
-  /* SLA */
-  .sla-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 22px; }
-  .sla-stat {
-    background: linear-gradient(135deg, white, var(--gray-50));
-    border: 1px solid var(--gray-200); border-radius: 12px;
-    padding: 18px 20px; position: relative; overflow: hidden;
-  }
-  .sla-stat .icon {
-    position: absolute; right: 14px; top: 14px;
-    width: 36px; height: 36px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center; font-size: 18px;
-    background: var(--bg, var(--gray-100)); color: var(--fg, var(--gray-600));
-  }
-  .sla-stat .label { font-size: 12px; color: var(--gray-500); font-weight: 600; }
-  .sla-stat .val { font-size: 30px; font-weight: 800; color: var(--gray-900); margin-top: 2px; }
-  .sla-stat .foot { font-size: 11px; color: var(--gray-400); margin-top: 4px; }
-
-  .sla-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
-  .sla-card {
-    border: 1px solid var(--gray-200); border-radius: 12px; padding: 16px;
-    background: white;
-  }
-  .sla-name { font-weight: 700; color: var(--gray-900); font-size: 14px; margin-bottom: 8px; display:flex; justify-content:space-between; align-items:center; }
-  .sla-pct { font-size: 22px; font-weight: 800; }
-  .sla-bar { height: 10px; background: var(--gray-100); border-radius: 999px; overflow: hidden; display: flex; }
-  .sla-bar .ok { background: linear-gradient(90deg, #10b981, #34d399); }
-  .sla-bar .late { background: linear-gradient(90deg, #ef4444, #f87171); }
-  .sla-meta { display: flex; gap: 12px; font-size: 11px; color: var(--gray-500); margin-top: 8px; flex-wrap: wrap; }
-  .sla-meta strong { color: var(--gray-900); }
-
-  /* Filters & Table */
-  .filters {
-    background: var(--gray-50); border-radius: 12px; padding: 14px 16px;
-    border: 1px solid var(--gray-200); margin-bottom: 16px;
-  }
-  .filter-group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
-  .filter-group:last-child { margin-bottom: 0; }
-  .filter-label {
-    font-size: 11px; color: var(--gray-500); font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.6px; min-width: 70px;
-  }
-  .filter-pill {
-    padding: 5px 12px; border-radius: 999px; border: 1.5px solid var(--gray-200);
-    background: white; font-size: 12px; cursor: pointer;
-    color: var(--gray-600); font-weight: 600; transition: all 0.2s;
-  }
-  .filter-pill:hover { border-color: var(--primary-light); color: var(--primary); }
-  .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
-  .filter-pill.reset { color: var(--danger); border-color: #fecaca; background: #fef2f2; }
-  .filter-summary {
-    font-size: 13px; color: var(--gray-600); margin-bottom: 14px;
-    padding: 10px 14px; background: #eff6ff; border-radius: 10px; border-left: 3px solid var(--primary);
-  }
-  .filter-summary strong { color: var(--primary); }
-
-  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--gray-200); }
-  table.dt { width: 100%; border-collapse: collapse; font-size: 13px; background: white; }
-  table.dt th {
-    background: var(--gray-50); text-align: left; padding: 12px 14px;
-    font-size: 11px; color: var(--gray-500); text-transform: uppercase;
-    letter-spacing: 0.5px; border-bottom: 1px solid var(--gray-200); font-weight: 700;
-  }
-  table.dt td { padding: 12px 14px; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); }
-  table.dt tr:last-child td { border-bottom: none; }
-  table.dt tr:hover td { background: #fafbff; }
-
-  .empty-state { text-align: center; padding: 40px; color: var(--gray-400); font-style: italic; }
-
-  /* Footer */
-  footer.site-foot {
-    background: var(--gray-900); color: white;
-    padding: 40px 28px 24px; margin-top: 60px;
-  }
-  .foot-inner {
-    max-width: 1280px; margin: 0 auto;
-    display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
-  }
-  @media (max-width: 768px) { .foot-inner { grid-template-columns: 1fr; } }
-  .foot-brand { font-size: 18px; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
-  .foot-brand .logo {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: linear-gradient(135deg, var(--primary-light), var(--accent));
-    display: flex; align-items: center; justify-content: center; font-size: 16px;
-  }
-  .foot-desc { color: var(--gray-400); font-size: 13px; line-height: 1.6; }
-  .foot-col h4 { font-size: 13px; margin-bottom: 10px; color: var(--gray-300); text-transform: uppercase; letter-spacing: 0.6px; }
-  .foot-col a { display: block; color: var(--gray-400); font-size: 13px; padding: 4px 0; }
-  .foot-col a:hover { color: white; }
-  .foot-bottom { max-width: 1280px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid var(--gray-700); text-align: center; color: var(--gray-500); font-size: 12px; }
-
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .hero h1 { font-size: 32px; }
-    .hero p { font-size: 15px; }
-    section.block { padding: 36px 0; }
-    .section-head h2 { font-size: 24px; }
-  }
+  * { font-family: 'Sarabun', sans-serif; }
+  body { background: linear-gradient(135deg, #f5f7fa 0%, #e8edf5 100%); min-height: 100vh; }
+  .glass { background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); }
+  .card-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: all 0.3s ease; }
+  .card-shadow:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.12); transform: translateY(-2px); }
+  .kpi-card { background: linear-gradient(135deg, var(--from), var(--to)); }
+  .person-card { cursor: pointer; transition: all 0.3s ease; }
+  .person-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+  .person-card.active { ring: 3px solid #4f46e5; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 50; align-items: center; justify-content: center; }
+  .modal.active { display: flex; }
+  .scroll-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+  .scroll-thin::-webkit-scrollbar-track { background: #f1f1f1; }
+  .scroll-thin::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+  .table-row:hover { background: #f8fafc; }
+  .tab-btn { padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+  .tab-btn.active { background: #4f46e5; color: white; }
+  .tab-btn:not(.active):hover { background: #e0e7ff; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.4s ease-out; }
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="nav-inner">
-    <a href="#top" class="brand">
-      <div class="logo">T</div>
+<!-- Header -->
+<header class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-xl">
+  <div class="max-w-7xl mx-auto px-6 py-6">
+    <div class="flex items-center justify-between flex-wrap gap-4">
       <div>
-        TVP Recruitment Hub
-        <small>HR Dashboard 2569</small>
+        <h1 class="text-3xl font-bold flex items-center gap-3">
+          <span class="text-4xl">📊</span>
+          HR Recruitment Dashboard
+        </h1>
+        <p class="text-indigo-100 mt-1">TVP Recruitment Tracking - ปี 2569</p>
       </div>
-    </a>
-    <div class="nav-links">
-      <a href="#overview" class="nav-link">ภาพรวม</a>
-      <a href="#team" class="nav-link">ทีม HR</a>
-      <a href="#analytics" class="nav-link">Analytics</a>
-      <a href="#sla" class="nav-link">SLA</a>
-      <a href="#pending" class="nav-link">ค้างรับ</a>
+      <div class="flex items-center gap-4">
+        <div class="text-right">
+          <div class="text-sm text-indigo-100">วันที่ปัจจุบัน</div>
+          <div class="text-lg font-semibold" id="todayDate"></div>
+        </div>
+      </div>
     </div>
-    <a href="TVP_Pending_by_HR.xlsx" class="nav-cta" download>📥 ดาวน์โหลด Excel</a>
   </div>
-</nav>
+</header>
 
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="hero-inner">
-    <div class="hero-tag"><span class="dot"></span> ข้อมูล ณ 29 เมษายน 2026 (ล่าสุด)</div>
-    <h1>สรุปการสรรหา ปี 2569<br><span class="accent">พร้อมติดตามอัตราค้างรับ</span></h1>
-    <p>เช็คสถานะคำขอสรรหา ความคืบหน้าของแต่ละ HR และอัตราที่ยังค้างรับแบบเรียลไทม์ คลิกที่การ์ด HR เพื่อดูรายการตำแหน่งที่ยังต้องติดตาม</p>
-    <div class="hero-stats" id="hero-stats"></div>
-  </div>
-</section>
+<main class="max-w-7xl mx-auto px-6 py-6 space-y-6">
 
-<main>
-
-  <!-- OVERVIEW -->
-  <section class="block" id="overview">
-    <div class="section-head">
-      <span class="section-eyebrow">Overview</span>
-      <h2>สรุปสถานะคำขอสรรหา</h2>
-      <p>แยกตามสถานะการสรรหาทั้งหมด 80 คำขอ (ปี 2568-2569)</p>
+  <!-- KPI Summary -->
+  <section class="grid grid-cols-2 md:grid-cols-5 gap-4">
+    <div class="kpi-card p-5 rounded-2xl text-white card-shadow" style="--from:#6366f1;--to:#8b5cf6;">
+      <div class="text-sm opacity-90">ตำแหน่งทั้งหมด</div>
+      <div class="text-4xl font-bold mt-2" id="kpiTotal">0</div>
+      <div class="text-xs mt-1 opacity-80">Total Positions</div>
     </div>
-    <div class="grid-2">
-      <div class="card">
-        <h3>📊 สถานะการสรรหา</h3>
-        <div class="sub">สัดส่วนของคำขอแต่ละสถานะ</div>
-        <div id="status-bars"></div>
-      </div>
-      <div class="card">
-        <h3>🏢 จำนวนตำแหน่งแยกตาม BU</h3>
-        <div class="sub">Business Unit ที่มีคำขอสรรหา</div>
-        <div id="bu-bars"></div>
-      </div>
+    <div class="kpi-card p-5 rounded-2xl text-white card-shadow" style="--from:#10b981;--to:#059669;">
+      <div class="text-sm opacity-90">รับเข้าแล้ว</div>
+      <div class="text-4xl font-bold mt-2" id="kpiHired">0</div>
+      <div class="text-xs mt-1 opacity-80">Hired</div>
+    </div>
+    <div class="kpi-card p-5 rounded-2xl text-white card-shadow" style="--from:#f59e0b;--to:#d97706;">
+      <div class="text-sm opacity-90">อยู่ระหว่างสรรหา</div>
+      <div class="text-4xl font-bold mt-2" id="kpiInProgress">0</div>
+      <div class="text-xs mt-1 opacity-80">In Progress</div>
+    </div>
+    <div class="kpi-card p-5 rounded-2xl text-white card-shadow" style="--from:#ef4444;--to:#dc2626;">
+      <div class="text-sm opacity-90">SLA เกินกำหนด</div>
+      <div class="text-4xl font-bold mt-2" id="kpiOverdue">0</div>
+      <div class="text-xs mt-1 opacity-80">Over SLA</div>
+    </div>
+    <div class="kpi-card p-5 rounded-2xl text-white card-shadow" style="--from:#64748b;--to:#475569;">
+      <div class="text-sm opacity-90">ชะลอ/ยกเลิก</div>
+      <div class="text-4xl font-bold mt-2" id="kpiCancelled">0</div>
+      <div class="text-xs mt-1 opacity-80">Cancelled</div>
     </div>
   </section>
 
-  <!-- TEAM -->
-  <section class="block" id="team">
-    <div class="section-head">
-      <span class="section-eyebrow">HR Team</span>
-      <h2>ผู้รับผิดชอบ (HR)</h2>
-      <p>คลิกที่การ์ดเพื่อดูตำแหน่งที่ยังค้างรับของแต่ละคน (ไม่นับชะลอ/ยกเลิก)</p>
+  <!-- Person Cards -->
+  <section class="glass rounded-2xl p-6 card-shadow">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+        <span>👥</span> ผู้รับผิดชอบ - ตำแหน่งค้างรับ
+      </h2>
+      <div class="text-sm text-gray-500">คลิกที่การ์ดเพื่อดูรายละเอียด</div>
     </div>
-    <div class="team-grid" id="team-grid"></div>
-    <div id="detail-panel">
-      <div id="detail-title"></div>
-      <div class="pending-list" id="pending-list"></div>
+    <div id="personCards" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
+  </section>
+
+  <!-- Charts Section -->
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="glass rounded-2xl p-6 card-shadow">
+      <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <span>📋</span> สถานะใบคำขอ
+      </h3>
+      <canvas id="chartRequest" height="180"></canvas>
+    </div>
+    <div class="glass rounded-2xl p-6 card-shadow">
+      <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <span>🔄</span> สถานะการสรรหา
+      </h3>
+      <canvas id="chartRecruit" height="180"></canvas>
+    </div>
+    <div class="glass rounded-2xl p-6 card-shadow">
+      <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <span>⏱️</span> SLA Performance
+      </h3>
+      <canvas id="chartSLA" height="180"></canvas>
+    </div>
+    <div class="glass rounded-2xl p-6 card-shadow">
+      <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <span>🏢</span> ตามหน่วยธุรกิจ (BU)
+      </h3>
+      <canvas id="chartBU" height="180"></canvas>
     </div>
   </section>
 
-  <!-- SLA -->
-  <section class="block" id="sla">
-    <div class="section-head">
-      <span class="section-eyebrow">SLA & Lead Time</span>
-      <h2>ประสิทธิภาพการสรรหา</h2>
-      <p>เปรียบเทียบ Lead Time จริงกับ SLA ที่กำหนด — งาน "เกิน" คือใช้เวลาเกิน SLA, "ไม่เกิน" คือปิดได้ภายใน SLA</p>
-    </div>
-    <div class="card">
-      <div class="sla-overview" id="sla-overview"></div>
-      <div class="sla-grid" id="sla-grid"></div>
-    </div>
-  </section>
-
-  <!-- PENDING -->
-  <section class="block" id="pending">
-    <div class="section-head">
-      <span class="section-eyebrow">Pending Backlog</span>
-      <h2>รายการอัตราค้างรับทั้งหมด</h2>
-      <p>กรองได้หลายมิติ — HR / BU / เดือน / สถานะการสรรหา (ตัวกรองทำงานพร้อมกัน) — <strong>ไม่นับงานที่ชะลอ/ยกเลิก</strong></p>
-    </div>
-    <div class="card">
-      <div class="filters" id="filters-block"></div>
-      <div class="filter-summary" id="filter-summary"></div>
-      <div class="table-wrap">
-        <table class="dt" id="pending-table">
-          <thead>
-            <tr>
-              <th>#</th><th>HR</th><th>BU</th><th>เดือน</th><th>หน่วยงาน</th>
-              <th>ตำแหน่ง</th><th>สถานะการสรรหา</th><th>วันที่ร้องขอ</th><th>SLA</th><th>คงเหลือ</th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
+  <!-- Filters & Table -->
+  <section class="glass rounded-2xl p-6 card-shadow">
+    <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+      <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+        <span>📑</span> รายการตำแหน่งทั้งหมด
+      </h2>
+      <div class="flex flex-wrap gap-2 items-center">
+        <input id="searchBox" type="text" placeholder="🔍 ค้นหาตำแหน่ง / หน่วยงาน..." class="px-4 py-2 border border-gray-300 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+        <select id="filterPerson" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <option value="">ผู้รับผิดชอบทั้งหมด</option>
+        </select>
+        <select id="filterRequest" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <option value="">สถานะใบคำขอทั้งหมด</option>
+        </select>
+        <select id="filterRecruit" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <option value="">สถานะสรรหาทั้งหมด</option>
+        </select>
+        <select id="filterSLA" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <option value="">SLA ทั้งหมด</option>
+          <option value="ไม่เกิน">ไม่เกิน SLA</option>
+          <option value="เกิน">เกิน SLA</option>
+        </select>
+        <button id="resetBtn" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm">↻ Reset</button>
       </div>
+    </div>
+    
+    <div class="text-sm text-gray-600 mb-2">
+      แสดง <span id="resultCount" class="font-bold text-indigo-600">0</span> รายการ
+    </div>
+    
+    <div class="overflow-auto scroll-thin" style="max-height: 600px;">
+      <table class="w-full text-sm">
+        <thead class="sticky top-0 bg-gray-50 z-10">
+          <tr class="border-b border-gray-200">
+            <th class="px-3 py-3 text-left font-semibold text-gray-700">#</th>
+            <th class="px-3 py-3 text-left font-semibold text-gray-700">ผู้รับผิดชอบ</th>
+            <th class="px-3 py-3 text-left font-semibold text-gray-700">BU</th>
+            <th class="px-3 py-3 text-left font-semibold text-gray-700">หน่วยงาน</th>
+            <th class="px-3 py-3 text-left font-semibold text-gray-700">ตำแหน่ง</th>
+            <th class="px-3 py-3 text-left font-semibold text-gray-700">สถานะใบคำขอ</th>
+            <th class="px-3 py-3 text-left font-semibold text-gray-700">สถานะสรรหา</th>
+            <th class="px-3 py-3 text-center font-semibold text-gray-700">SLA</th>
+            <th class="px-3 py-3 text-center font-semibold text-gray-700">วันคงเหลือ</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
     </div>
   </section>
 
 </main>
 
-<!-- FOOTER -->
-<footer class="site-foot">
-  <div class="foot-inner">
-    <div>
-      <div class="foot-brand"><div class="logo">T</div> TVP Recruitment Hub</div>
-      <div class="foot-desc">ศูนย์รวมข้อมูลการสรรหาบุคลากรประจำปี 2569 สำหรับทีม HR — ติดตาม SLA, อัตราค้างรับ และประสิทธิภาพการปิดงานในที่เดียว</div>
+<!-- Modal for person detail -->
+<div id="personModal" class="modal">
+  <div class="bg-white rounded-2xl max-w-5xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col">
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-5 flex items-center justify-between">
+      <div>
+        <h3 class="text-2xl font-bold" id="modalTitle">ผู้รับผิดชอบ</h3>
+        <p class="text-indigo-100 text-sm mt-1" id="modalSubtitle"></p>
+      </div>
+      <button onclick="closeModal()" class="text-white hover:bg-white hover:bg-opacity-20 rounded-full w-10 h-10 flex items-center justify-center text-2xl">✕</button>
     </div>
-    <div class="foot-col">
-      <h4>เมนู</h4>
-      <a href="#overview">ภาพรวม</a>
-      <a href="#team">ทีม HR</a>
-      <a href="#sla">SLA</a>
-      <a href="#pending">ค้างรับ</a>
-    </div>
-    <div class="foot-col">
-      <h4>ข้อมูล</h4>
-      <a href="TVP_Pending_by_HR.xlsx" download>📥 ดาวน์โหลด Excel</a>
-      <a href="#top">⬆ กลับไปด้านบน</a>
+    <div class="p-6 overflow-auto scroll-thin">
+      <!-- Stats summary -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5" id="modalStats"></div>
+      
+      <!-- Tabs -->
+      <div class="flex gap-2 mb-4 border-b border-gray-200 pb-3 flex-wrap">
+        <button class="tab-btn active" data-tab="pending">ค้างสรรหา <span class="ml-1 text-xs" id="tabCountPending"></span></button>
+        <button class="tab-btn" data-tab="hired">รับเข้าแล้ว <span class="ml-1 text-xs" id="tabCountHired"></span></button>
+        <button class="tab-btn" data-tab="cancelled">ชะลอ/ยกเลิก <span class="ml-1 text-xs" id="tabCountCancelled"></span></button>
+        <button class="tab-btn" data-tab="all">ทั้งหมด <span class="ml-1 text-xs" id="tabCountAll"></span></button>
+      </div>
+      
+      <div id="modalContent" class="space-y-2"></div>
     </div>
   </div>
-  <div class="foot-bottom">© 2569 TVP Recruitment Tracking — Built for HR Team</div>
-</footer>
+</div>
 
 <script>
-const DATA = [{"no": "1", "year": "2569", "owner": "ฟลุ๊ค", "month": "กุมภาพันธ์", "req_date": "2/10/2026", "bu": "TVP-Ez", "dept": "ฝ่ายขายอีซี่คาร์ (ทีม 1)", "position": "Head of Car Subscription", "req_status": "มีใบคำขอ", "req_id": "REQ690210/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "ค้างรับ", "hire_month": "มกราคม", "hire_count": "0", "hired_name": "นายวันเฉลิม ศรีรัตนะ", "recruit_type": "ผู้จัดการ", "approval_date": "12-ก.พ.-2026", "sla": "90", "close_by": "13-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "19-ก.พ.-2026", "start_date": "3-มี.ค.-2026", "start_month": "มีนาคม", "actual_days": "8", "lead_time": "ไม่เกิน", "source": "Agency", "unit_resp": "Holding", "new_or_replace": "โครงสร้างใหม่", "replace_name": "", "note": ""}, {"no": "2", "year": "2569", "owner": "ฟลุ๊ค", "month": "กุมภาพันธ์", "req_date": "2/10/2026", "bu": "TVP", "dept": "ฝ่ายการตลาดอีซี่คาร์", "position": "Marketing & Communication Lead", "req_status": "มีใบคำขอ", "req_id": "REQ690210/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "ค้างรับ", "hire_month": "มกราคม", "hire_count": "0", "hired_name": "นางณิชา ตันติภักดิ์", "recruit_type": "ผู้จัดการ", "approval_date": "12-ก.พ.-2026", "sla": "90", "close_by": "13-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "2-ก.พ.-2026", "start_date": "17-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "11", "lead_time": "ไม่เกิน", "source": "Agency", "unit_resp": "Holding", "new_or_replace": "โครงสร้างใหม่", "replace_name": "", "note": ""}, {"no": "3", "year": "2568", "owner": "พจน์", "month": "มกราคม", "req_date": "1-ม.ค.-2026", "bu": "TVP", "dept": "ฝ่ายขายอีซี่คาร์ (ทีม 1)", "position": "Eazy Guide", "req_status": "มีใบคำขอ", "req_id": "REQ681030/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "ค้างรับ", "hire_month": "มีนาคม", "hire_count": "0", "hired_name": "นางสาวบุษยมาศ ญาณศิริเดชา", "recruit_type": "ปฏิบัติการ", "approval_date": "1-ม.ค.-2026", "sla": "45", "close_by": "15-ก.พ.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "17-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_days": "107", "lead_time": "เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวสุภาพร ผาสุขฤทธิ์", "note": ""}, {"no": "4", "year": "2568", "owner": "พจน์", "month": "เมษายน", "req_date": "1-เม.ย.-2026", "bu": "TVP", "dept": "ฝ่ายขายอีซี่คาร์ (ทีม 1)", "position": "Business Development", "req_status": "มีใบคำขอ", "req_id": "REQ690401/00005", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "ค้างรับ", "hire_month": "มีนาคม", "hire_count": "0", "hired_name": "ธนพร นิลสุวรรณ", "recruit_type": "ปฏิบัติการ", "approval_date": "3-เม.ย.-2026", "sla": "45", "close_by": "18-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "17-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_days": "15", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "", "note": ""}, {"no": "5", "year": "2568", "owner": "พจน์", "month": "มกราคม", "req_date": "1-ม.ค.-2026", "bu": "TVP", "dept": "ขายบุคคลระยะสั้น สุขุมวิท", "position": "Business Development", "req_status": "ไม่มีใบคำขอ", "req_id": "", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "ค้างรับ", "hire_month": "มีนาคม", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "1-ม.ค.-2026", "sla": "45", "close_by": "15-ก.พ.-2026", "days_remaining": "-73", "days_recruiting": "-118", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "91", "lead_time": "เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "", "note": ""}, {"no": "6", "year": "2568", "owner": "พจน์", "month": "มกราคม", "req_date": "1-ม.ค.-2026", "bu": "TVP", "dept": "ขายบุคคลระยะสั้น Drivemate", "position": "เจ้าหน้าที่ลูกค้าสัมพันธ์(อาวุโส)", "req_status": "มีใบคำขอ", "req_id": "REQ681119/00006", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ", "add_status": "ค้างรับ", "hire_month": "มีนาคม", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "1-ม.ค.-2026", "sla": "45", "close_by": "15-ก.พ.-2026", "days_remaining": "-73", "days_recruiting": "-118", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "91", "lead_time": "เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "โครงสร้างใหม่", "replace_name": "", "note": ""}, {"no": "7", "year": "2568", "owner": "จ๋อมแจ๋ม", "month": "มกราคม", "req_date": "1-ม.ค.-2026", "bu": "TVP", "dept": "ฝ่ายนายหน้าประกันภัย", "position": "เจ้าหน้าที่ขายประกันภัย", "req_status": "มีใบคำขอ", "req_id": "REQ681118/00001", "rate_status": "ชะลอ/ยกเลิก", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "ค้างรับ", "hire_month": "มีนาคม", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "1-ม.ค.-2026", "sla": "45", "close_by": "15-ก.พ.-2026", "days_remaining": "-73", "days_recruiting": "-118", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "91", "lead_time": "เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวทักษกร เพชรชูรังษี", "note": ""}, {"no": "8", "year": "2568", "owner": "ฟลุ๊ค", "month": "กุมภาพันธ์", "req_date": "17-ก.พ.-2026", "bu": "TVP", "dept": "บริหารทรัพยากรบุคคลและธุรการ", "position": "ผู้ชำนาญการด้านการสรรหาทรัพยากรบุคคล", "req_status": "มีใบคำขอ", "req_id": "REQ690217/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "ค้างรับ", "hire_month": "กุมภาพันธ์", "hire_count": "0", "hired_name": "นายกมลศักดิ์ สีอร่ามรุ่งเรือง", "recruit_type": "หัวหน้าทีม", "approval_date": "19-ก.พ.-2026", "sla": "60", "close_by": "20-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "26-ก.พ.-2026", "start_date": "4-มี.ค.-2026", "start_month": "มีนาคม", "actual_days": "8", "lead_time": "ไม่เกิน", "source": "JobsDB", "unit_resp": "Holding", "new_or_replace": "ทดแทนโอนย้าย", "replace_name": "", "note": ""}, {"no": "9", "year": "2568", "owner": "จ๋อมแจ๋ม", "month": "มีนาคม", "req_date": "31-มี.ค.-2026", "bu": "TVP-Ez", "dept": "ขายทีม C", "position": "Telesales ทีม C", "req_status": "มีใบคำขอ", "req_id": "REQ690331/00004", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "ค้างรับ", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "8-เม.ย.-2026", "sla": "45", "close_by": "23-พ.ค.-2026", "days_remaining": "24", "days_recruiting": "-21", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "8", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวธัญพร  กุลชัย", "note": ""}, {"no": "10", "year": "2568", "owner": "จ๋อมแจ๋ม", "month": "มกราคม", "req_date": "1-ม.ค.-2026", "bu": "TVP-Ez", "dept": "ขายทีม D", "position": "ที่ปรึกษาการขายโครงการรถเช่า ทีม D", "req_status": "มีใบคำขอ", "req_id": "REQ681219/00005", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "ค้างรับ", "hire_month": "มีนาคม", "hire_count": "0", "hired_name": "นางสาวธัญวรินทร์ โชติรัตนวิจิตต์", "recruit_type": "ปฏิบัติการ", "approval_date": "1-ม.ค.-2026", "sla": "45", "close_by": "15-ก.พ.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "23-มี.ค.-2026", "start_date": "21-เม.ย.-2026", "start_month": "เมษายน", "actual_days": "82", "lead_time": "เกิน", "source": "JobBKK", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวศิริประภา สีจันหล้า", "note": ""}, {"no": "11", "year": "2568", "owner": "เจม", "month": "มกราคม", "req_date": "1-ม.ค.-2026", "bu": "TVP-Ez", "dept": "ฝ่ายนายหน้าประกันภัย", "position": "จนท.ขายประกันภัย(นวมินทร์)", "req_status": "มีใบคำขอ", "req_id": "REQ681225/00001", "rate_status": "ชะลอ/ยกเลิก", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "ค้างรับ", "hire_month": "กุมภาพันธ์", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "1-ม.ค.-2026", "sla": "45", "close_by": "15-ก.พ.-2026", "days_remaining": "-73", "days_recruiting": "-118", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "0", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวรัตนา รัตนะกุ", "note": ""}, {"no": "12", "year": "2568", "owner": "เจม", "month": "มกราคม", "req_date": "1-ม.ค.-2026", "bu": "TVP-Ez", "dept": "ขายรถยนต์มือสอง-ทีม1", "position": "ผู้จัดการทั่วไป", "req_status": "มีใบคำขอ", "req_id": "REQ681224/00004", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "add_status": "ค้างรับ", "hire_month": "กุมภาพันธ์", "hire_count": "0", "hired_name": "นางสาวณัฐพร พรมยะดวง", "recruit_type": "หัวหน้าทีม", "approval_date": "1-ม.ค.-2026", "sla": "60", "close_by": "2-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "1-ม.ค.-2026", "start_date": "27-ม.ค.-2026", "start_month": "มกราคม", "actual_days": "0", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "", "note": ""}, {"no": "13", "year": "2569", "owner": "ฟลุ๊ค", "month": "กุมภาพันธ์", "req_date": "17-ก.พ.-2026", "bu": "TRP", "dept": "ฝ่าย AI", "position": "AI Solution Architect", "req_status": "มีใบคำขอ", "req_id": "REQ690217/00003", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "ค้างรับ", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "", "recruit_type": "ผู้จัดการ", "approval_date": "20-ก.พ.-2026", "sla": "90", "close_by": "21-พ.ค.-2026", "days_remaining": "22", "days_recruiting": "-68", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "41", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "14", "year": "2569", "owner": "ฟลุ๊ค", "month": "กุมภาพันธ์", "req_date": "17-ก.พ.-2026", "bu": "TRP", "dept": "ฝ่าย AI", "position": "AI Adoption Specialist / Prompt Engineer", "req_status": "มีใบคำขอ", "req_id": "REQ690217/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "", "recruit_type": "ผู้จัดการ", "approval_date": "20-ก.พ.-2026", "sla": "90", "close_by": "21-พ.ค.-2026", "days_remaining": "22", "days_recruiting": "-68", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "41", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "15", "year": "2569", "owner": "ฟลุ๊ค", "month": "มกราคม", "req_date": "8-ม.ค.-2026", "bu": "TRP", "dept": "ส่วนการเงิน-ด้านบริหารทางการเงิน", "position": "เจ้าหน้าที่การเงิน (ด้านบริหารการเงิน)", "req_status": "มีใบคำขอ", "req_id": "REQ681219/00004", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวสิริวิมล  ตรังคสิริกุล", "recruit_type": "ปฏิบัติการ", "approval_date": "21-ม.ค.-2026", "sla": "45", "close_by": "7-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "9-ก.พ.-2026", "start_date": "2-มี.ค.-2026", "start_month": "มีนาคม", "actual_days": "20", "lead_time": "ไม่เกิน", "source": "JobThai", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "16", "year": "2569", "owner": "ฟลุ๊ค", "month": "มกราคม", "req_date": "12-ม.ค.-2026", "bu": "TRP", "dept": "เทคโนโลยีสารสนเทศ", "position": "IT Infrastructure Officer", "req_status": "มีใบคำขอ", "req_id": "REQ690112/00006", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นายพิษณุ โพธิ์ชัย", "recruit_type": "วิชาชีพ", "approval_date": "14-ม.ค.-2026", "sla": "60", "close_by": "15-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "30-ม.ค.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "17", "lead_time": "ไม่เกิน", "source": "โอนย้ายภายใน", "unit_resp": "Holding", "new_or_replace": "โครงสร้างใหม่(นอกแผนงบประมาณ)", "replace_name": "เป็นการโอนย้ายอัตรากำลังคน จาก Toyota libra  ยัง TRP (IT Holding )", "note": ""}, {"no": "17", "year": "2569", "owner": "ฟลุ๊ค", "month": "มกราคม", "req_date": "12-ม.ค.-2026", "bu": "TRP", "dept": "ส่วนบัญชี-ด้าน AP เจ้าหนี้", "position": "เจ้าหน้าที่บัญชี (ด้านเจ้าหนี้ AP)", "req_status": "มีใบคำขอ", "req_id": "REQ690112/00008", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวอรวรรณ กงนอก", "recruit_type": "ปฏิบัติการ", "approval_date": "21-ม.ค.-2026", "sla": "45", "close_by": "7-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "4-ก.พ.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "15", "lead_time": "ไม่เกิน", "source": "JobThai", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวธนภรณ์ \nอ่ำทรัพย์", "note": ""}, {"no": "18", "year": "2569", "owner": "ฟลุ๊ค", "month": "มกราคม", "req_date": "12-ม.ค.-2026", "bu": "TRP", "dept": "ส่วนบัญชี-ด้านบัญชีลูกหนี้", "position": "เจ้าหน้าที่บัญชี (ด้านลูกหนี้)", "req_status": "มีใบคำขอ", "req_id": "REQ690118/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นายรัชชานนท์ การะเกตุ", "recruit_type": "ปฏิบัติการ", "approval_date": "21-ม.ค.-2026", "sla": "45", "close_by": "7-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "12-ก.พ.-2026", "start_date": "9-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "23", "lead_time": "ไม่เกิน", "source": "JobThai", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "พนิตพิชา  พิมพ์ทอง", "note": ""}, {"no": "19", "year": "2569", "owner": "ฟลุ๊ค", "month": "มกราคม", "req_date": "12-ม.ค.-2026", "bu": "TRP", "dept": "บริหารทรัพยากรบุคคล", "position": "เจ้าหน้าที่ทรัพยากรบุคคล", "req_status": "มีใบคำขอ", "req_id": "REQ690114/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวฐิติรัตน์ ศิลาทอง", "recruit_type": "ปฏิบัติการ", "approval_date": "23-ม.ค.-2026", "sla": "45", "close_by": "9-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "13-ก.พ.-2026", "start_date": "16-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "22", "lead_time": "ไม่เกิน", "source": "JobThai", "unit_resp": "Holding", "new_or_replace": "โครงสร้างใหม่(นอกแผนงบประมาณ)", "replace_name": "", "note": ""}, {"no": "20", "year": "2569", "owner": "ฟลุ๊ค", "month": "มกราคม", "req_date": "19-ม.ค.-2026", "bu": "TVP-Ez", "dept": "ฝ่ายขายอีซี่คาร์ (ทีม 1)", "position": "ประสานงานขาย", "req_status": "ไม่มีใบคำขอ", "req_id": "", "rate_status": "ชะลอ/ยกเลิก", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "ค้างรับ", "hire_month": "กุมภาพันธ์", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "", "sla": "45", "close_by": "-", "days_remaining": "45", "days_recruiting": "0", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "0", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวโพธิวรรณ โพธิ์นอก", "note": ""}, {"no": "21", "year": "2569", "owner": "ฟลุ๊ค", "month": "มกราคม", "req_date": "30-ม.ค.-2026", "bu": "TRP", "dept": "บริหารทรัพยากรบุคคล", "position": "เจ้าหน้าที่ทรัพยากรบุคคล", "req_status": "มีใบคำขอ", "req_id": "REQ690130/00001", "rate_status": "ชะลอ/ยกเลิก", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "", "hire_month": "", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "6-ก.พ.-2026", "sla": "45", "close_by": "23-มี.ค.-2026", "days_remaining": "-37", "days_recruiting": "-82", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "0", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาววราพันธ์ ศรีลานิล", "note": ""}, {"no": "22", "year": "2569", "owner": "ฟลุ๊ค", "month": "มกราคม", "req_date": "21-ม.ค.-2026", "bu": "TRP", "dept": "บริหารทรัพยากรบุคคล", "position": "เจ้าหน้าที่ทรัพยากรบุคคล", "req_status": "มีใบคำขอ", "req_id": "REQ690121/00005", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวจีราวรรณ จำปาเครือ", "recruit_type": "ปฏิบัติการ", "approval_date": "9-ก.พ.-2026", "sla": "45", "close_by": "26-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "29-ม.ค.-2026", "start_date": "9-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "12", "lead_time": "ไม่เกิน", "source": "JobThai", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาววีรดา รุ่งเรือง", "note": ""}, {"no": "23", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "req_date": "3-ก.พ.-2026", "bu": "TVP-Ez", "dept": "ขายบุคคลระยะสั้น สาขาอุดร", "position": "Vehical Service Agent(VSA)", "req_status": "มีใบคำขอ", "req_id": "REQ690203/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นายพุฒิพงษ์ วดีศิริศักดิ์", "recruit_type": "ปฏิบัติการ", "approval_date": "5-ก.พ.-2026", "sla": "45", "close_by": "22-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "6-มี.ค.-2026", "start_date": "9-มี.ค.-2026", "start_month": "มีนาคม", "actual_days": "30", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นายวิโรจน์ ไกรเมฆ", "note": ""}, {"no": "24", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "มีนาคม", "req_date": "19-มี.ค.-2026", "bu": "TVP-Ez", "dept": "ขายบุคคลระยะสั้น", "position": "Senior Rental Service Officer", "req_status": "มีใบคำขอ", "req_id": "REQ690319/00016", "rate_status": "ชะลอ/ยกเลิก", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "หัวหน้าทีม", "approval_date": "", "sla": "60", "close_by": "", "days_remaining": "", "days_recruiting": "", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "0", "lead_time": "", "source": "", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "จุฑามาศ ฉัตรแก้ว", "note": ""}, {"no": "25", "year": "2569", "owner": "พจน์", "month": "กุมภาพันธ์", "req_date": "3-ก.พ.-2026", "bu": "TVP", "dept": "ส่วนงานการเงิน", "position": "ผู้จัดการส่วนงานการเงิน", "req_status": "มีใบคำขอ", "req_id": "REQ690203/00001", "rate_status": "ชะลอ/ยกเลิก", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "ค้างรับ", "hire_month": "มีนาคม", "hire_count": "1", "hired_name": "", "recruit_type": "ผู้จัดการ", "approval_date": "5-ก.พ.-2026", "sla": "90", "close_by": "6-พ.ค.-2026", "days_remaining": "7", "days_recruiting": "-83", "sign_date": "1-มี.ค.-2026", "start_date": "", "start_month": "", "actual_days": "25", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "วันวิสา  พัฒนกิจจำรูญ", "note": ""}, {"no": "26", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "req_date": "2-ก.พ.-2026", "bu": "TVP", "dept": "ขายทีม I", "position": "ที่ปรึกษาการขายโครงการรถเช่า  ทีม I", "req_status": "มีใบคำขอ", "req_id": "REQ690202/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "ค้างรับ", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "3-ก.พ.-2026", "sla": "45", "close_by": "20-มี.ค.-2026", "days_remaining": "-40", "days_recruiting": "-85", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "58", "lead_time": "เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "27", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "req_date": "2-ก.พ.-2026", "bu": "TVP", "dept": "ขายทีม I", "position": "ที่ปรึกษาการขายโครงการรถเช่า  ทีม I", "req_status": "มีใบคำขอ", "req_id": "REQ690202/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "ค้างรับ", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "3-ก.พ.-2026", "sla": "45", "close_by": "20-มี.ค.-2026", "days_remaining": "-40", "days_recruiting": "-85", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "58", "lead_time": "เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "28", "year": "2569", "owner": "เจม", "month": "มกราคม", "req_date": "29-ม.ค.-2026", "bu": "TVP", "dept": "ขายราชการ", "position": "พนักงานขับรถ(Driver)", "req_status": "มีใบคำขอ", "req_id": "REQ690129/00001", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นายประสิทธิ์ พยอม", "recruit_type": "ปฏิบัติการ", "approval_date": "29-ม.ค.-2026", "sla": "45", "close_by": "15-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "6-มี.ค.-2026", "start_date": "1-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "37", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "", "new_or_replace": "ทดแทนลาออก", "replace_name": "นายบอล  เพ็งศรี", "note": ""}, {"no": "29", "year": "2569", "owner": "เจม", "month": "มกราคม", "req_date": "28-ม.ค.-2026", "bu": "TVP", "dept": "ฝ่ายนายหน้าประกันภัย", "position": "Telesales", "req_status": "มีใบคำขอ", "req_id": "REQ690128/00009", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวระพีพร โรจนประดิษฐ์", "recruit_type": "ปฏิบัติการ", "approval_date": "29-ม.ค.-2026", "sla": "45", "close_by": "15-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "9-มี.ค.-2026", "start_date": "11-มี.ค.-2026", "start_month": "มีนาคม", "actual_days": "40", "lead_time": "ไม่เกิน", "source": "Facebook", "unit_resp": "หน่วยงาน", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "30", "year": "2569", "owner": "พจน์", "month": "มกราคม", "req_date": "26-ม.ค.-2026", "bu": "TVP-Uc", "dept": "ส่วนจัดซื้อ จัดจ้าง", "position": "เจ้าหน้าที่จัดซื้อ", "req_status": "มีใบคำขอ", "req_id": "REQ690126/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "ค้างรับ", "hire_month": "มีนาคม", "hire_count": "0", "hired_name": "นางสาวมณฑาทิพย์ ชาวบล", "recruit_type": "ปฏิบัติการ", "approval_date": "28-ม.ค.-2026", "sla": "45", "close_by": "14-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "24-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_days": "87", "lead_time": "เกิน", "source": "JobsDB", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวริต้า เกษมาลา", "note": ""}, {"no": "31", "year": "2569", "owner": "เจม", "month": "มกราคม", "req_date": "26-ม.ค.-2026", "bu": "TVP-Uc", "dept": "ขายรถยนต์มือสอง-ทีม1", "position": "ที่ปรึกษาการขาย (SCX)", "req_status": "มีใบคำขอ", "req_id": "REQ690126/00001", "rate_status": "ชะลอ/ยกเลิก", "emp_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวสุขภาดา ปลอดภัย", "recruit_type": "ปฏิบัติการ", "approval_date": "27-ม.ค.-2026", "sla": "45", "close_by": "13-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "0", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "", "replace_name": "", "note": ""}, {"no": "32", "year": "2569", "owner": "เน", "month": "มกราคม", "req_date": "21-ม.ค.-2026", "bu": "TVP", "dept": "ฝ่ายประกันภัยรถยนต์", "position": "เจ้าหน้าที่ธุรการ", "req_status": "มีใบคำขอ", "req_id": "REQ690121/00008", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวขนิษฐา  ทุงจันทร์", "recruit_type": "ปฏิบัติการ", "approval_date": "26-ม.ค.-2026", "sla": "45", "close_by": "12-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "29-ม.ค.-2026", "start_date": "5-ม.ค.-2026", "start_month": "มกราคม", "actual_days": "4", "lead_time": "ไม่เกิน", "source": "Facebook", "unit_resp": "หน่วยงาน", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "33", "year": "2569", "owner": "เน", "month": "มกราคม", "req_date": "21-ม.ค.-2026", "bu": "TVP", "dept": "ส่วนงานทะเบียน", "position": "เจ้าหน้าที่ธุรการ", "req_status": "มีใบคำขอ", "req_id": "REQ690121/00007", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวรัตน์วลัย จันทร์สุโข", "recruit_type": "ปฏิบัติการ", "approval_date": "22-ม.ค.-2026", "sla": "45", "close_by": "8-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "30-ม.ค.-2026", "start_date": "2-ม.ค.-2026", "start_month": "มกราคม", "actual_days": "9", "lead_time": "ไม่เกิน", "source": "พนักงานเก่า", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาววรันลักษณ์ ผิวงาม", "note": ""}, {"no": "34", "year": "2569", "owner": "เน", "month": "มกราคม", "req_date": "15-ม.ค.-2026", "bu": "TVP", "dept": "ฝ่ายนายหน้าประกันภัย", "position": "Telesales", "req_status": "มีใบคำขอ", "req_id": "REQ690115/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางมณีรัตน์ เหมือนสมัย", "recruit_type": "ปฏิบัติการ", "approval_date": "16-ม.ค.-2026", "sla": "45", "close_by": "2-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "5-ก.พ.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "21", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวศิริลักษณ์   ชื่นชม", "note": ""}, {"no": "35", "year": "2569", "owner": "เน", "month": "มกราคม", "req_date": "13-ม.ค.-2026", "bu": "TVP", "dept": "ฝ่ายนายหน้าประกันภัย", "position": "Telesales", "req_status": "มีใบคำขอ", "req_id": "REQ690113/00004", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวรัมภา กิติบดี", "recruit_type": "ปฏิบัติการ", "approval_date": "16-ม.ค.-2026", "sla": "45", "close_by": "2-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "29-ม.ค.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "14", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวพรทิพย์ พุ่มพันธ์", "note": ""}, {"no": "36", "year": "2569", "owner": "เน", "month": "มกราคม", "req_date": "13-ม.ค.-2026", "bu": "TVP", "dept": "ฝ่ายนายหน้าประกันภัย", "position": "Telesales", "req_status": "มีใบคำขอ", "req_id": "REQ690113/00003", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวภัคธินันท์ ชัยสุริยันฉัตร", "recruit_type": "ปฏิบัติการ", "approval_date": "16-ม.ค.-2026", "sla": "45", "close_by": "2-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "29-ม.ค.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "14", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวอรุณี สุขภาพ", "note": ""}, {"no": "37", "year": "2569", "owner": "เน", "month": "มกราคม", "req_date": "15-ม.ค.-2026", "bu": "TVP", "dept": "ฝ่ายนายหน้าประกันภัย", "position": "Telesales", "req_status": "มีใบคำขอ", "req_id": "REQ690115/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางมณีรัตน์ เหมือนสมัย", "recruit_type": "ปฏิบัติการ", "approval_date": "16-ม.ค.-2026", "sla": "45", "close_by": "2-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "29-ม.ค.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_days": "14", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวศิริลักษณ์   ชื่นชม", "note": ""}, {"no": "38", "year": "2569", "owner": "เน", "month": "มกราคม", "req_date": "9-ม.ค.-2026", "bu": "TVP", "dept": "ขายรถยนต์มือสอง-ทีม2", "position": "ที่ปรึกษาการขาย (SC)", "req_status": "มีใบคำขอ", "req_id": "REQ690109/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวกัญญาภัทร แจ่มจอน", "recruit_type": "ปฏิบัติการ", "approval_date": "12-ม.ค.-2026", "sla": "45", "close_by": "26-ก.พ.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "1-ม.ค.-2026", "start_date": "1-ม.ค.-2026", "start_month": "มกราคม", "actual_days": "12", "lead_time": "ไม่เกิน", "source": "ปรับเป็นประจำ/ฟรีแลนซ์", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวกัญญาภัทร แจ่มจอน", "note": ""}, {"no": "39", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "มกราคม", "req_date": "8-ม.ค.-2026", "bu": "TVP", "dept": "ขายทีม A", "position": "ที่ปรึกษาการขายโครงการรถเช่า  ทีม A", "req_status": "มีใบคำขอ", "req_id": "REQ690105/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ", "add_status": "ค้างรับ", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "คุณวรภัทร", "recruit_type": "ปฏิบัติการ", "approval_date": "29-ม.ค.-2026", "sla": "45", "close_by": "15-มี.ค.-2026", "days_remaining": "-45", "days_recruiting": "-90", "sign_date": "1-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_days": "63", "lead_time": "เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "40", "year": "2569", "owner": "พจน์", "month": "มกราคม", "req_date": "6-ม.ค.-2026", "bu": "TVP-Ez", "dept": "ฝ่ายขายอีซี่คาร์ (Flexi ระยะสั้น)", "position": "Eazy Guide", "req_status": "มีใบคำขอ", "req_id": "REQ690106/00003", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "ค้างรับ", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "13-ม.ค.-2026", "sla": "45", "close_by": "27-ก.พ.-2026", "days_remaining": "-61", "days_recruiting": "-106", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "79", "lead_time": "เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวสุภาพร ผาสุขฤทธิ์", "note": ""}, {"no": "41", "year": "2569", "owner": "ฟลุ๊ค", "month": "กุมภาพันธ์", "req_date": "13-ก.พ.-2026", "bu": "TVP", "dept": "เทคโนโลยีสารสนเทศ", "position": "เจ้าหน้าที่พัฒนาระบบ", "req_status": "มีใบคำขอ", "req_id": "REQ690213/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นายพงศกร สุขชาลี", "recruit_type": "วิชาชีพ", "approval_date": "14-ก.พ.-2026", "sla": "60", "close_by": "15-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "26-ก.พ.-2026", "start_date": "1-เม.ย.-2026", "start_month": "เมษายน", "actual_days": "13", "lead_time": "ไม่เกิน", "source": "JobsDB", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นายพิสิษฐ์ สิริสิงห์สกุล", "note": ""}, {"no": "42", "year": "2569", "owner": "พจน์", "month": "กุมภาพันธ์", "req_date": "24-ก.พ.-2026", "bu": "TVP-Uc", "dept": "ส่วนงานบัญชี", "position": "เจ้าหน้าที่บัญชี(อาวุโส)", "req_status": "มีใบคำขอ", "req_id": "REQ690224/00006", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวประภาพร มณีนิล", "recruit_type": "ปฏิบัติการ", "approval_date": "27-ก.พ.-2026", "sla": "45", "close_by": "13-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "23-มี.ค.-2026", "start_date": "20-เม.ย.-2026", "start_month": "เมษายน", "actual_days": "25", "lead_time": "ไม่เกิน", "source": "JobThai", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวอรัญวา มณฑาโทน", "note": ""}, {"no": "43", "year": "2569", "owner": "พจน์", "month": "กุมภาพันธ์", "req_date": "24-ก.พ.-2026", "bu": "TVP", "dept": "ส่วนงานการเงิน", "position": "เจ้าหน้าที่การเงิน", "req_status": "มีใบคำขอ", "req_id": "REQ690224/00007", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "ค้างรับ", "hire_month": "มีนาคม", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "27-ก.พ.-2026", "sla": "45", "close_by": "13-เม.ย.-2026", "days_remaining": "-16", "days_recruiting": "-61", "sign_date": "1-มี.ค.-2026", "start_date": "", "start_month": "", "actual_days": "3", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวพิมพิชญา  คล้อยน้อย)", "note": ""}, {"no": "44", "year": "2569", "owner": "ฟลุ๊ค", "month": "มีนาคม", "req_date": "4-มี.ค.-2026", "bu": "TVP", "dept": "ฝ่ายซ่อมบำรุง", "position": "เจ้าหน้าที่วิเคราะห์งานซ่อม", "req_status": "มีใบคำขอ", "req_id": "REQ690304/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "ค้างรับ", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "", "recruit_type": "วิชาชีพ", "approval_date": "13-มี.ค.-2026", "sla": "60", "close_by": "12-พ.ค.-2026", "days_remaining": "13", "days_recruiting": "-47", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "20", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นายสุรพงษ์ พลอยฉาย", "note": ""}, {"no": "45", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "มีนาคม", "req_date": "4-มี.ค.-2026", "bu": "TVP", "dept": "ฝ่ายพิจารณาสินเชื่อ", "position": "เจ้าหน้าที่พิจารณาสินเชื่อ", "req_status": "มีใบคำขอ", "req_id": "REQ690304/00001", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "", "sla": "45", "close_by": "-", "days_remaining": "45", "days_recruiting": "0", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "0", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "โครงสร้างใหม่(นอกแผนงบประมาณ)", "replace_name": "", "note": ""}, {"no": "46", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "req_date": "26-ก.พ.-2026", "bu": "TVP", "dept": "ส่วนงานบัญชี", "position": "เจ้าหน้าที่บัญชี", "req_status": "มีใบคำขอ", "req_id": "REQ690226/00005", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "นางสาวณัฐิตา มะลิพงศ์", "recruit_type": "ปฏิบัติการ", "approval_date": "27-ก.พ.-2026", "sla": "45", "close_by": "13-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "12-มี.ค.-2026", "start_date": "2-มี.ค.-2026", "start_month": "มีนาคม", "actual_days": "14", "lead_time": "ไม่เกิน", "source": "พนักงานเก่า", "unit_resp": "Holding", "new_or_replace": "โครงสร้างใหม่(นอกแผนงบประมาณ)", "replace_name": "", "note": ""}, {"no": "47", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "req_date": "26-ก.พ.-2026", "bu": "TVP", "dept": "ขายรถยนต์มือสอง-ทีม2", "position": "ที่ปรึกษาการขาย (SC)", "req_status": "มีใบคำขอ", "req_id": "REQ690226/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวสุขภาดา ปลอดภัย", "recruit_type": "ปฏิบัติการ", "approval_date": "5-มี.ค.-2026", "sla": "45", "close_by": "19-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "1-ก.พ.-2026", "start_date": "9-มี.ค.-2026", "start_month": "มีนาคม", "actual_days": "33", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวกัญญาภัทร แจ่มจอน)", "note": ""}, {"no": "48", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "req_date": "24-ก.พ.-2026", "bu": "TVP", "dept": "ฝ่ายซ่อมบำรุง", "position": "เจ้าหน้าที่ธุรการงานซ่อม", "req_status": "มีใบคำขอ", "req_id": "REQ690224/00003", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "อยู่ระหว่างส่งประวัติ", "add_status": "ค้างรับ", "hire_month": "มีนาคม", "hire_count": "", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "4-มี.ค.-2026", "sla": "45", "close_by": "18-เม.ย.-2026", "days_remaining": "-11", "days_recruiting": "-56", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "0", "lead_time": "ไม่เกิน", "source": "Facebook", "unit_resp": "Holding", "new_or_replace": "โครงสร้างใหม่(นอกแผนงบประมาณ)", "replace_name": "", "note": ""}, {"no": "49", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "req_date": "16-ก.พ.-2026", "bu": "TVP", "dept": "ขายรถยนต์มือสอง-ทีม1", "position": "ที่ปรึกษาการขาย (SCX)", "req_status": "มีใบคำขอ", "req_id": "REQ690213/00003", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "นางสาวกัญญาภัทร แจ่มจอน", "recruit_type": "ปฏิบัติการ", "approval_date": "21-ก.พ.-2026", "sla": "45", "close_by": "7-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "9-มี.ค.-2026", "start_date": "1-มี.ค.-2026", "start_month": "มีนาคม", "actual_days": "17", "lead_time": "ไม่เกิน", "source": "ปรับเป็นประจำ/ฟรีแลนซ์", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "50", "year": "2569", "owner": "ฟลุ๊ค", "month": "กุมภาพันธ์", "req_date": "", "bu": "TVP", "dept": "บิซโบรคเกอร์", "position": "Strategic Partnerships & BD.", "req_status": "ไม่มีใบคำขอ", "req_id": "", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "", "sla": "45", "close_by": "-", "days_remaining": "45", "days_recruiting": "0", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "46114", "lead_time": "เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "51", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "มีนาคม", "req_date": "", "bu": "TVP", "dept": "ขายทีม B", "position": "ที่ปรึกษาการขายโครงการรถเช่า  ทีม B", "req_status": "ไม่มีใบคำขอ", "req_id": "", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "", "sla": "45", "close_by": "-", "days_remaining": "45", "days_recruiting": "0", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "46114", "lead_time": "เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "52", "year": "2569", "owner": "พจน์", "month": "มีนาคม", "req_date": "10-มี.ค.-2026", "bu": "TVP", "dept": "ส่วนงานบัญชี", "position": "ธุรการบัญชี", "req_status": "มีใบคำขอ", "req_id": "REQ690325/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นายภัทรศักดิ์ พลังสิริเจริญ", "recruit_type": "ปฏิบัติการ", "approval_date": "30-มี.ค.-2026", "sla": "45", "close_by": "14-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "31-มี.ค.-2026", "start_date": "6-เม.ย.-2026", "start_month": "เมษายน", "actual_days": "2", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "หน่วยงาน", "new_or_replace": "โครงสร้างใหม่(นอกแผนงบประมาณ)", "replace_name": "New Position", "note": ""}, {"no": "53", "year": "2569", "owner": "ฟลุ๊ค", "month": "มีนาคม", "req_date": "4-มี.ค.-2026", "bu": "TVP", "dept": "ฝ่ายซ่อมบำรุง", "position": "เจ้าหน้าที่บริหารเครือข่ายและความสัมพันธ์ลูกค้าองค์กร", "req_status": "มีใบคำขอ", "req_id": "REQ690316/00007", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ", "add_status": "ค้างรับ", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "18-มี.ค.-2026", "sla": "45", "close_by": "2-พ.ค.-2026", "days_remaining": "3", "days_recruiting": "-42", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "15", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวรฐา ไถวสินธุ์", "note": ""}, {"no": "54", "year": "2569", "owner": "ฟลุ๊ค", "month": "มีนาคม", "req_date": "10-มี.ค.-2026", "bu": "TRP", "dept": "ส่วนบัญชี-ด้านจ่ายค่าใช้จ่าย", "position": "เจ้าหน้าที่บัญชีอาวุโส (ด้านจ่ายค่าใช้จ่าย)", "req_status": "มีใบคำขอ", "req_id": "REQ690310/00004", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวอฤทัย มะโนชาติ", "recruit_type": "วิชาชีพ", "approval_date": "16-มี.ค.-2026", "sla": "60", "close_by": "15-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "24-มี.ค.-2026", "start_date": "1-เม.ย.-2026", "start_month": "เมษายน", "actual_days": "9", "lead_time": "ไม่เกิน", "source": "JobBKK", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "55", "year": "2569", "owner": "ฟลุ๊ค", "month": "มกราคม", "req_date": "1-ม.ค.-2026", "bu": "LAC-RA", "dept": "ขายทีม A", "position": "ที่ปรึกษาการขาย (SC)", "req_status": "มีใบคำขอ", "req_id": "REQ661107/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาววรินทรลดา สิริจิรธันย์", "recruit_type": "ปฏิบัติการ", "approval_date": "31-ม.ค.-2026", "sla": "45", "close_by": "17-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "15-ม.ค.-2026", "start_date": "12-มี.ค.-2026", "start_month": "มกราคม", "actual_days": "17", "lead_time": "ไม่เกิน", "source": "JobTH", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "56", "year": "2569", "owner": "ฟลุ๊ค", "month": "มีนาคม", "req_date": "16-มี.ค.-2026", "bu": "TRP", "dept": "สำนักบริหาร", "position": "พนักงานขับรถผู้บริหาร", "req_status": "มีใบคำขอ", "req_id": "REQ690316/00003", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างส่งประวัติ", "add_status": "ค้างรับ", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "17-มี.ค.-2026", "sla": "45", "close_by": "1-พ.ค.-2026", "days_remaining": "2", "days_recruiting": "-43", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "16", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "57", "year": "2569", "owner": "ฟลุ๊ค", "month": "มีนาคม", "req_date": "16-มี.ค.-2026", "bu": "TRP", "dept": "สำนักกรรมการ", "position": "เลขานุการบริหาร", "req_status": "มีใบคำขอ", "req_id": "REQ690316/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวชุติกาญจน์ ชูเจริญ", "recruit_type": "ผู้จัดการ", "approval_date": "17-มี.ค.-2026", "sla": "90", "close_by": "15-มิ.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "20-มี.ค.-2026", "start_date": "24-มี.ค.-2026", "start_month": "มีนาคม", "actual_days": "4", "lead_time": "ไม่เกิน", "source": "JobsDB", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "58", "year": "2569", "owner": "พจน์", "month": "มีนาคม", "req_date": "20-มี.ค.-2026", "bu": "TVP", "dept": "ส่วนงานบัญชี", "position": "เจ้าหน้าที่บัญชี(อาวุโส)", "req_status": "มีใบคำขอ", "req_id": "REQ690318/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวสุธีกานต์ ชื่นสุนทร", "recruit_type": "วิชาชีพ", "approval_date": "22-มี.ค.-2026", "sla": "60", "close_by": "21-พ.ค.-2026", "days_remaining": "", "days_recruiting": "", "sign_date": "20-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_days": "30", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "หน่วยงาน", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "New Position", "note": ""}, {"no": "59", "year": "2569", "owner": "ฟลุ๊ค", "month": "มีนาคม", "req_date": "23-มี.ค.-2026", "bu": "TRP", "dept": "ตรวจสอบภายใน (IA)", "position": "เจ้าหน้าที่ตรวจสอบภายใน", "req_status": "มีใบคำขอ", "req_id": "REQ690323/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวพิมพิกา มาตยาคุณ", "recruit_type": "ปฏิบัติการ", "approval_date": "28-มี.ค.-2026", "sla": "45", "close_by": "12-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "27-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_days": "31", "lead_time": "ไม่เกิน", "source": "JobBKK", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "คุณปัณณธร  กองศรี", "note": ""}, {"no": "60", "year": "2569", "owner": "ฟลุ๊ค", "month": "มีนาคม", "req_date": "24-มี.ค.-2026", "bu": "BIZ NEX", "dept": "", "position": "Part Time", "req_status": "ไม่มีใบคำขอ", "req_id": "", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "", "sla": "45", "close_by": "", "days_remaining": "", "days_recruiting": "", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "0", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "", "replace_name": "", "note": ""}, {"no": "61", "year": "2569", "owner": "พจน์", "month": "มีนาคม", "req_date": "20-มี.ค.-2026", "bu": "TVP", "dept": "ส่วนงานบัญชี", "position": "เจ้าหน้าที่บัญชี(อาวุโส)", "req_status": "มีใบคำขอ", "req_id": "REQ690327/00004", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวณการฎา ชูจันทร์", "recruit_type": "ปฏิบัติการ", "approval_date": "31-มี.ค.-2026", "sla": "45", "close_by": "15-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "17-เม.ย.-2026", "start_date": "20-เม.ย.-2026", "start_month": "เมษายน", "actual_days": "18", "lead_time": "ไม่เกิน", "source": "JobThai", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "ศศิทรา แซ่ตั้ง", "note": ""}, {"no": "62", "year": "2569", "owner": "พจน์", "month": "มีนาคม", "req_date": "20-มี.ค.-2026", "bu": "TVP", "dept": "ส่วนงานบัญชี", "position": "เจ้าหน้าที่บัญชี(อาวุโส)", "req_status": "มีใบคำขอ", "req_id": "REQ690327/00003", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "กุลรัศมิ์ ศรีแก้ว", "recruit_type": "ปฏิบัติการ", "approval_date": "31-มี.ค.-2026", "sla": "45", "close_by": "15-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "2-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_days": "3", "lead_time": "ไม่เกิน", "source": "JobsDB", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "ธัญญาภรณ์ ศรีบุดดา", "note": ""}, {"no": "63", "year": "2569", "owner": "พจน์", "month": "เมษายน", "req_date": "2-เม.ย.-2026", "bu": "TVP", "dept": "ขายบุคคลระยะสั้น สุขุมวิท", "position": "Senior Sales Operation Officer", "req_status": "ไม่มีใบคำขอ", "req_id": "", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "นายชัชฤทธิ์ วิสุทธิ์เทพ", "recruit_type": "หัวหน้าทีม", "approval_date": "", "sla": "60", "close_by": "-", "days_remaining": "60", "days_recruiting": "0", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "0", "lead_time": "ไม่เกิน", "source": "JobThai", "unit_resp": "", "new_or_replace": "", "replace_name": "", "note": ""}, {"no": "64", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "มีนาคม", "req_date": "26-มี.ค.-2026", "bu": "TVP", "dept": "ขายบุคคลระยะสั้น สาขาเชียงใหม่", "position": "Senior Rental Service Officer", "req_status": "มีใบคำขอ", "req_id": "REQ690326/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "นางสาวปาริชาติ รินดวง", "recruit_type": "หัวหน้าทีม", "approval_date": "27-มี.ค.-2026", "sla": "60", "close_by": "26-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "3-เม.ย.-2026", "start_date": "1-เม.ย.-2026", "start_month": "เมษายน", "actual_days": "8", "lead_time": "ไม่เกิน", "source": "JobThai", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "จุฑามาศ  ฉัตรแก้ว", "note": ""}, {"no": "65", "year": "2568", "owner": "พจน์", "month": "มกราคม", "req_date": "1-ม.ค.-2026", "bu": "TVP", "dept": "ฝ่ายขายอีซี่คาร์ (ทีม 1)", "position": "Eazy Guide", "req_status": "มีใบคำขอ", "req_id": "REQ690401/00006", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "ค้างรับ", "hire_month": "เมษายน", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "3-เม.ย.-2026", "sla": "45", "close_by": "18-พ.ค.-2026", "days_remaining": "19", "days_recruiting": "-26", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "3", "lead_time": "ไม่เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "66", "year": "2569", "owner": "ฟลุ๊ค", "month": "เมษายน", "req_date": "9-เม.ย.-2026", "bu": "TVP-Ez", "dept": "ฝ่ายขายอีซี่คาร์ (Flexi ระยะสั้น)", "position": "พนักงานปฏิบัติการรถเช่า", "req_status": "มีใบคำขอ", "req_id": "REQ690409/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "0", "hired_name": "ภานุวัฒน์ ใจบุญ", "recruit_type": "ปฏิบัติการ", "approval_date": "16-เม.ย.-2026", "sla": "45", "close_by": "31-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "17-เม.ย.-2026", "start_date": "20-เม.ย.-2026", "start_month": "เมษายน", "actual_days": "1", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "67", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "เมษายน", "req_date": "8-เม.ย.-2026", "bu": "TVP-Ez", "dept": "ขายทีม D", "position": "ที่ปรึกษาการขายโครงการรถเช่า ทีม D", "req_status": "มีใบคำขอ", "req_id": "REQ690408/00005", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างส่งประวัติ", "add_status": "", "hire_month": "", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "21-เม.ย.-2026", "sla": "45", "close_by": "5-มิ.ย.-2026", "days_remaining": "37", "days_recruiting": "-8", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "--", "lead_time": "-", "source": "", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "68", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "เมษายน", "req_date": "7-เม.ย.-2026", "bu": "TVP", "dept": "ขายราชการ", "position": "พนักงานขับรถ(Driver)", "req_status": "มีใบคำขอ", "req_id": "REQ690407/00002", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "นายบุญธรรม สิกขา", "recruit_type": "ปฏิบัติการ", "approval_date": "8-เม.ย.-2026", "sla": "45", "close_by": "23-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "sign_date": "17-เม.ย.-2026", "start_date": "1-เม.ย.-2026", "start_month": "เมษายน", "actual_days": "9", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นายนฤเบศ ครูศรี", "note": ""}, {"no": "69", "year": "2569", "owner": "พจน์", "month": "เมษายน", "req_date": "10-เม.ย.-2026", "bu": "TVP", "dept": "ฝ่ายขายอีซี่คาร์ (Flexi ระยะสั้น)", "position": "Eazy Guide", "req_status": "มีใบคำขอ", "req_id": "REQ690401/00007", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "16-เม.ย.-2026", "sla": "45", "close_by": "31-พ.ค.-2026", "days_remaining": "32", "days_recruiting": "-13", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "--", "lead_time": "-", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "นายสมพงษ์ แต่งพลกรัง", "note": ""}, {"no": "70", "year": "2569", "owner": "พจน์", "month": "เมษายน", "req_date": "17-เม.ย.-2026", "bu": "TVP", "dept": "ฝ่ายขายอีซี่คาร์ (Flexi ระยะสั้น)", "position": "Eazy Guide", "req_status": "มีใบคำขอ", "req_id": "REQ690417/00001", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "1", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "23-เม.ย.-2026", "sla": "45", "close_by": "7-มิ.ย.-2026", "days_remaining": "39", "days_recruiting": "-6", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "--", "lead_time": "-", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "ธัญญวรรณ  ธัญญดำรง", "note": ""}, {"no": "71", "year": "2569", "owner": "พจน์", "month": "เมษายน", "req_date": "21-เม.ย.-2026", "bu": "TVP", "dept": "ฝ่ายการตลาดอีซี่คาร์", "position": "ผู้เชี่ยวชาญด้านกราฟิกดีไซน์", "req_status": "ไม่มีใบคำขอ", "req_id": "", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "หัวหน้าทีม", "approval_date": "", "sla": "60", "close_by": "-", "days_remaining": "60", "days_recruiting": "0", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "46113", "lead_time": "เกิน", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "วรัญญา วงศ์ศรีรุ่งเรือง", "note": ""}, {"no": "72", "year": "2569", "owner": "พจน์", "month": "เมษายน", "req_date": "21-เม.ย.-2026", "bu": "TVP", "dept": "ขายบุคคลระยะสั้น สุขุมวิท", "position": "เจ้าหน้าที่พัฒนาธุรกิจ", "req_status": "มีใบคำขอ", "req_id": "REQ690421/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "", "sla": "45", "close_by": "-", "days_remaining": "45", "days_recruiting": "0", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "--", "lead_time": "-", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "73", "year": "2569", "owner": "พจน์", "month": "เมษายน", "req_date": "21-เม.ย.-2026", "bu": "TVP", "dept": "ขายบุคคลระยะสั้น สุขุมวิท", "position": "เจ้าหน้าที่พัฒนาธุรกิจ", "req_status": "มีใบคำขอ", "req_id": "REQ690421/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "", "sla": "45", "close_by": "-", "days_remaining": "45", "days_recruiting": "0", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "--", "lead_time": "-", "source": "", "unit_resp": "หน่วยงาน", "new_or_replace": "ทดแทนลาออก", "replace_name": "ฐานิฎฐ์กานต์", "note": ""}, {"no": "74", "year": "2569", "owner": "ฟลุ๊ค", "month": "เมษายน", "req_date": "20-เม.ย.-2026", "bu": "TRP", "dept": "สำนักกรรมการ", "position": "เลขานุการบริหาร", "req_status": "ไม่มีใบคำขอ", "req_id": "REQ690316/00002", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ผู้จัดการ", "approval_date": "", "sla": "90", "close_by": "-", "days_remaining": "90", "days_recruiting": "0", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "46114", "lead_time": "เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นางสาวชุติกาญจน์ ชูเจริญ", "note": ""}, {"no": "75", "year": "2569", "owner": "พจน์", "month": "เมษายน", "req_date": "23-เม.ย.-2026", "bu": "TVP", "dept": "", "position": "Sale Manager", "req_status": "ไม่มีใบคำขอ", "req_id": "", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ผู้จัดการ", "approval_date": "", "sla": "90", "close_by": "-", "days_remaining": "90", "days_recruiting": "0", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "46113", "lead_time": "เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "76", "year": "2569", "owner": "พจน์", "month": "เมษายน", "req_date": "23-เม.ย.-2026", "bu": "TVP", "dept": "", "position": "Sale", "req_status": "ไม่มีใบคำขอ", "req_id": "", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "", "sla": "45", "close_by": "-", "days_remaining": "45", "days_recruiting": "0", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "46113", "lead_time": "เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "77", "year": "2569", "owner": "พจน์", "month": "เมษายน", "req_date": "23-เม.ย.-2026", "bu": "TVP", "dept": "", "position": "Sale", "req_status": "ไม่มีใบคำขอ", "req_id": "", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "", "sla": "45", "close_by": "-", "days_remaining": "45", "days_recruiting": "0", "sign_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_days": "46113", "lead_time": "เกิน", "source": "", "unit_resp": "Holding", "new_or_replace": "โครงสร้างตามแผนงบประมาณ", "replace_name": "", "note": ""}, {"no": "78", "year": "2569", "owner": "พจน์", "month": "เมษายน", "req_date": "24-เม.ย.-2026", "bu": "TVP", "dept": "ฝ่ายการตลาดอีซี่คาร์", "position": "ผู้อำนวยการฝ่ายการตลาด", "req_status": "มีใบคำขอ", "req_id": "REQ690424/00001", "rate_status": "ชะลอ/ยกเลิก", "emp_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "add_status": "", "hire_month": "", "hire_count": "1", "hired_name": "", "recruit_type": "ผู้จัดการ", "approval_date": "", "sla": "90", "close_by": "-", "days_remaining": "90", "days_recruiting": "0", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "--", "lead_time": "-", "source": "Agency", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "ณิชา ตันติภักดิ์", "note": ""}, {"no": "79", "year": "2569", "owner": "ฟลุ๊ค", "month": "เมษายน", "req_date": "23-เม.ย.-2026", "bu": "TVP", "dept": "เทคโนโลยีสารสนเทศ", "position": "IT Infrastructure Officer", "req_status": "มีใบคำขอ", "req_id": "REQ690423/00003", "rate_status": "ขอ", "emp_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "add_status": "", "hire_month": "", "hire_count": "1", "hired_name": "", "recruit_type": "วิชาชีพ", "approval_date": "24-เม.ย.-2026", "sla": "60", "close_by": "23-มิ.ย.-2026", "days_remaining": "55", "days_recruiting": "-5", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "--", "lead_time": "-", "source": "", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นายอำนาจ ปานทอง", "note": ""}, {"no": "80", "year": "2569", "owner": "จ๋อมแจ๋ม", "month": "เมษายน", "req_date": "28-เม.ย.-2026", "bu": "TVP", "dept": "ขายราชการ", "position": "พนักงานขับรถ(Driver)", "req_status": "มีใบคำขอ", "req_id": "REQ690428/00002", "rate_status": "ขอ", "emp_type": "Temporary", "recruit_status": "เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ", "add_status": "", "hire_month": "", "hire_count": "", "hired_name": "", "recruit_type": "ปฏิบัติการ", "approval_date": "28-เม.ย.-2026", "sla": "45", "close_by": "12-มิ.ย.-2026", "days_remaining": "44", "days_recruiting": "-1", "sign_date": "", "start_date": "", "start_month": "", "actual_days": "--", "lead_time": "-", "source": "หัวหน้างาน / เพื่อน แนะนำ", "unit_resp": "Holding", "new_or_replace": "ทดแทนลาออก", "replace_name": "นายอภิชาติ ชื่นสงวน", "note": ""}];
-const CANCELED = 'ชะลอ/ยกเลิก';
+const DATA = [{"no": "1", "year": "2569", "responsible": "ฟลุ๊ค", "month": "กุมภาพันธ์", "request_date": "2/10/2026", "bu": "TVP-Ez", "department": "ฝ่ายขายอีซี่คาร์ (ทีม 1)", "position": "Head of Car Subscription", "request_status": "มีใบคำขอ", "req_no": "REQ690210/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "ค้างรับ", "received_month": "มกราคม", "received_count": "0", "employee_name": "นายวันเฉลิม ศรีรัตนะ", "recruit_type": "ผู้จัดการ", "approve_date": "12-ก.พ.-2026", "sla": "90", "must_close_date": "13-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "19-ก.พ.-2026", "start_date": "3-มี.ค.-2026", "start_month": "มีนาคม", "actual_recruit_days": "8", "lead_time": "ไม่เกิน", "source": "Agency", "responsible_unit": "Holding", "structure_type": "โครงสร้างใหม่"}, {"no": "2", "year": "2569", "responsible": "ฟลุ๊ค", "month": "กุมภาพันธ์", "request_date": "2/10/2026", "bu": "TVP", "department": "ฝ่ายการตลาดอีซี่คาร์", "position": "Marketing & Communication Lead", "request_status": "มีใบคำขอ", "req_no": "REQ690210/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "ค้างรับ", "received_month": "มกราคม", "received_count": "0", "employee_name": "นางณิชา ตันติภักดิ์", "recruit_type": "ผู้จัดการ", "approve_date": "12-ก.พ.-2026", "sla": "90", "must_close_date": "13-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "2-ก.พ.-2026", "start_date": "17-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "11", "lead_time": "ไม่เกิน", "source": "Agency", "responsible_unit": "Holding", "structure_type": "โครงสร้างใหม่"}, {"no": "3", "year": "2568", "responsible": "พจน์", "month": "มกราคม", "request_date": "1-ม.ค.-2026", "bu": "TVP", "department": "ฝ่ายขายอีซี่คาร์ (ทีม 1)", "position": "Eazy Guide", "request_status": "มีใบคำขอ", "req_no": "REQ681030/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "ค้างรับ", "received_month": "มีนาคม", "received_count": "0", "employee_name": "นางสาวบุษยมาศ ญาณศิริเดชา", "recruit_type": "ปฏิบัติการ", "approve_date": "1-ม.ค.-2026", "sla": "45", "must_close_date": "15-ก.พ.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "17-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_recruit_days": "107", "lead_time": "เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "4", "year": "2568", "responsible": "พจน์", "month": "เมษายน", "request_date": "1-เม.ย.-2026", "bu": "TVP", "department": "ฝ่ายขายอีซี่คาร์ (ทีม 1)", "position": "Business Development", "request_status": "มีใบคำขอ", "req_no": "REQ690401/00005", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "ค้างรับ", "received_month": "มีนาคม", "received_count": "0", "employee_name": "ธนพร นิลสุวรรณ", "recruit_type": "ปฏิบัติการ", "approve_date": "3-เม.ย.-2026", "sla": "45", "must_close_date": "18-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "17-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_recruit_days": "15", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "5", "year": "2568", "responsible": "พจน์", "month": "มกราคม", "request_date": "1-ม.ค.-2026", "bu": "TVP", "department": "ขายบุคคลระยะสั้น สุขุมวิท", "position": "Business Development", "request_status": "ไม่มีใบคำขอ", "req_no": "", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "ค้างรับ", "received_month": "มีนาคม", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "1-ม.ค.-2026", "sla": "45", "must_close_date": "15-ก.พ.-2026", "days_remaining": "-73", "days_recruiting": "-118", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "91", "lead_time": "เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "6", "year": "2568", "responsible": "พจน์", "month": "มกราคม", "request_date": "1-ม.ค.-2026", "bu": "TVP", "department": "ขายบุคคลระยะสั้น Drivemate", "position": "เจ้าหน้าที่ลูกค้าสัมพันธ์(อาวุโส)", "request_status": "มีใบคำขอ", "req_no": "REQ681119/00006", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ", "extra_status": "ค้างรับ", "received_month": "มีนาคม", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "1-ม.ค.-2026", "sla": "45", "must_close_date": "15-ก.พ.-2026", "days_remaining": "-73", "days_recruiting": "-118", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "91", "lead_time": "เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "โครงสร้างใหม่"}, {"no": "7", "year": "2568", "responsible": "จ๋อมแจ๋ม", "month": "มกราคม", "request_date": "1-ม.ค.-2026", "bu": "TVP", "department": "ฝ่ายนายหน้าประกันภัย", "position": "เจ้าหน้าที่ขายประกันภัย", "request_status": "มีใบคำขอ", "req_no": "REQ681118/00001", "rate_status": "ชะลอ/ยกเลิก", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "ค้างรับ", "received_month": "มีนาคม", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "1-ม.ค.-2026", "sla": "45", "must_close_date": "15-ก.พ.-2026", "days_remaining": "-73", "days_recruiting": "-118", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "91", "lead_time": "เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "8", "year": "2568", "responsible": "ฟลุ๊ค", "month": "กุมภาพันธ์", "request_date": "17-ก.พ.-2026", "bu": "TVP", "department": "บริหารทรัพยากรบุคคลและธุรการ", "position": "ผู้ชำนาญการด้านการสรรหาทรัพยากรบุคคล", "request_status": "มีใบคำขอ", "req_no": "REQ690217/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "ค้างรับ", "received_month": "กุมภาพันธ์", "received_count": "0", "employee_name": "นายกมลศักดิ์ สีอร่ามรุ่งเรือง", "recruit_type": "หัวหน้าทีม", "approve_date": "19-ก.พ.-2026", "sla": "60", "must_close_date": "20-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "26-ก.พ.-2026", "start_date": "4-มี.ค.-2026", "start_month": "มีนาคม", "actual_recruit_days": "8", "lead_time": "ไม่เกิน", "source": "JobsDB", "responsible_unit": "Holding", "structure_type": "ทดแทนโอนย้าย"}, {"no": "9", "year": "2568", "responsible": "จ๋อมแจ๋ม", "month": "มีนาคม", "request_date": "31-มี.ค.-2026", "bu": "TVP-Ez", "department": "ขายทีม C", "position": "Telesales ทีม C", "request_status": "มีใบคำขอ", "req_no": "REQ690331/00004", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "ค้างรับ", "received_month": "เมษายน", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "8-เม.ย.-2026", "sla": "45", "must_close_date": "23-พ.ค.-2026", "days_remaining": "24", "days_recruiting": "-21", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "8", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "10", "year": "2568", "responsible": "จ๋อมแจ๋ม", "month": "มกราคม", "request_date": "1-ม.ค.-2026", "bu": "TVP-Ez", "department": "ขายทีม D", "position": "ที่ปรึกษาการขายโครงการรถเช่า ทีม D", "request_status": "มีใบคำขอ", "req_no": "REQ681219/00005", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "ค้างรับ", "received_month": "มีนาคม", "received_count": "0", "employee_name": "นางสาวธัญวรินทร์ โชติรัตนวิจิตต์", "recruit_type": "ปฏิบัติการ", "approve_date": "1-ม.ค.-2026", "sla": "45", "must_close_date": "15-ก.พ.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "23-มี.ค.-2026", "start_date": "21-เม.ย.-2026", "start_month": "เมษายน", "actual_recruit_days": "82", "lead_time": "เกิน", "source": "JobBKK", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "11", "year": "2568", "responsible": "เจม", "month": "มกราคม", "request_date": "1-ม.ค.-2026", "bu": "TVP-Ez", "department": "ฝ่ายนายหน้าประกันภัย", "position": "จนท.ขายประกันภัย(นวมินทร์)", "request_status": "มีใบคำขอ", "req_no": "REQ681225/00001", "rate_status": "ชะลอ/ยกเลิก", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "ค้างรับ", "received_month": "กุมภาพันธ์", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "1-ม.ค.-2026", "sla": "45", "must_close_date": "15-ก.พ.-2026", "days_remaining": "-73", "days_recruiting": "-118", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "0", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "12", "year": "2568", "responsible": "เจม", "month": "มกราคม", "request_date": "1-ม.ค.-2026", "bu": "TVP-Ez", "department": "ขายรถยนต์มือสอง-ทีม1", "position": "ผู้จัดการทั่วไป", "request_status": "มีใบคำขอ", "req_no": "REQ681224/00004", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "extra_status": "ค้างรับ", "received_month": "กุมภาพันธ์", "received_count": "0", "employee_name": "นางสาวณัฐพร พรมยะดวง", "recruit_type": "หัวหน้าทีม", "approve_date": "1-ม.ค.-2026", "sla": "60", "must_close_date": "2-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "1-ม.ค.-2026", "start_date": "27-ม.ค.-2026", "start_month": "มกราคม", "actual_recruit_days": "0", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "13", "year": "2569", "responsible": "ฟลุ๊ค", "month": "กุมภาพันธ์", "request_date": "17-ก.พ.-2026", "bu": "TRP", "department": "ฝ่าย AI", "position": "AI Solution Architect", "request_status": "มีใบคำขอ", "req_no": "REQ690217/00003", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "ค้างรับ", "received_month": "เมษายน", "received_count": "1", "employee_name": "", "recruit_type": "ผู้จัดการ", "approve_date": "20-ก.พ.-2026", "sla": "90", "must_close_date": "21-พ.ค.-2026", "days_remaining": "22", "days_recruiting": "-68", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "41", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "14", "year": "2569", "responsible": "ฟลุ๊ค", "month": "กุมภาพันธ์", "request_date": "17-ก.พ.-2026", "bu": "TRP", "department": "ฝ่าย AI", "position": "AI Adoption Specialist / Prompt Engineer", "request_status": "มีใบคำขอ", "req_no": "REQ690217/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "เมษายน", "received_count": "1", "employee_name": "", "recruit_type": "ผู้จัดการ", "approve_date": "20-ก.พ.-2026", "sla": "90", "must_close_date": "21-พ.ค.-2026", "days_remaining": "22", "days_recruiting": "-68", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "41", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "15", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มกราคม", "request_date": "8-ม.ค.-2026", "bu": "TRP", "department": "ส่วนการเงิน-ด้านบริหารทางการเงิน", "position": "เจ้าหน้าที่การเงิน (ด้านบริหารการเงิน)", "request_status": "มีใบคำขอ", "req_no": "REQ681219/00004", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวสิริวิมล  ตรังคสิริกุล", "recruit_type": "ปฏิบัติการ", "approve_date": "21-ม.ค.-2026", "sla": "45", "must_close_date": "7-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "9-ก.พ.-2026", "start_date": "2-มี.ค.-2026", "start_month": "มีนาคม", "actual_recruit_days": "20", "lead_time": "ไม่เกิน", "source": "JobThai", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "16", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มกราคม", "request_date": "12-ม.ค.-2026", "bu": "TRP", "department": "เทคโนโลยีสารสนเทศ", "position": "IT Infrastructure Officer", "request_status": "มีใบคำขอ", "req_no": "REQ690112/00006", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นายพิษณุ โพธิ์ชัย", "recruit_type": "วิชาชีพ", "approve_date": "14-ม.ค.-2026", "sla": "60", "must_close_date": "15-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "30-ม.ค.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "17", "lead_time": "ไม่เกิน", "source": "โอนย้ายภายใน", "responsible_unit": "Holding", "structure_type": "โครงสร้างใหม่(นอกแผนงบประมาณ)"}, {"no": "17", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มกราคม", "request_date": "12-ม.ค.-2026", "bu": "TRP", "department": "ส่วนบัญชี-ด้าน AP เจ้าหนี้", "position": "เจ้าหน้าที่บัญชี (ด้านเจ้าหนี้ AP)", "request_status": "มีใบคำขอ", "req_no": "REQ690112/00008", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวอรวรรณ กงนอก", "recruit_type": "ปฏิบัติการ", "approve_date": "21-ม.ค.-2026", "sla": "45", "must_close_date": "7-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "4-ก.พ.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "15", "lead_time": "ไม่เกิน", "source": "JobThai", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "18", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มกราคม", "request_date": "12-ม.ค.-2026", "bu": "TRP", "department": "ส่วนบัญชี-ด้านบัญชีลูกหนี้", "position": "เจ้าหน้าที่บัญชี (ด้านลูกหนี้)", "request_status": "มีใบคำขอ", "req_no": "REQ690118/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นายรัชชานนท์ การะเกตุ", "recruit_type": "ปฏิบัติการ", "approve_date": "21-ม.ค.-2026", "sla": "45", "must_close_date": "7-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "12-ก.พ.-2026", "start_date": "9-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "23", "lead_time": "ไม่เกิน", "source": "JobThai", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "19", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มกราคม", "request_date": "12-ม.ค.-2026", "bu": "TRP", "department": "บริหารทรัพยากรบุคคล", "position": "เจ้าหน้าที่ทรัพยากรบุคคล", "request_status": "มีใบคำขอ", "req_no": "REQ690114/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวฐิติรัตน์ ศิลาทอง", "recruit_type": "ปฏิบัติการ", "approve_date": "23-ม.ค.-2026", "sla": "45", "must_close_date": "9-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "13-ก.พ.-2026", "start_date": "16-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "22", "lead_time": "ไม่เกิน", "source": "JobThai", "responsible_unit": "Holding", "structure_type": "โครงสร้างใหม่(นอกแผนงบประมาณ)"}, {"no": "20", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มกราคม", "request_date": "19-ม.ค.-2026", "bu": "TVP-Ez", "department": "ฝ่ายขายอีซี่คาร์ (ทีม 1)", "position": "ประสานงานขาย", "request_status": "ไม่มีใบคำขอ", "req_no": "", "rate_status": "ชะลอ/ยกเลิก", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "ค้างรับ", "received_month": "กุมภาพันธ์", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "", "sla": "45", "must_close_date": "-", "days_remaining": "45", "days_recruiting": "0", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "0", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "21", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มกราคม", "request_date": "30-ม.ค.-2026", "bu": "TRP", "department": "บริหารทรัพยากรบุคคล", "position": "เจ้าหน้าที่ทรัพยากรบุคคล", "request_status": "มีใบคำขอ", "req_no": "REQ690130/00001", "rate_status": "ชะลอ/ยกเลิก", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "", "received_month": "", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "6-ก.พ.-2026", "sla": "45", "must_close_date": "23-มี.ค.-2026", "days_remaining": "-37", "days_recruiting": "-82", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "0", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "22", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มกราคม", "request_date": "21-ม.ค.-2026", "bu": "TRP", "department": "บริหารทรัพยากรบุคคล", "position": "เจ้าหน้าที่ทรัพยากรบุคคล", "request_status": "มีใบคำขอ", "req_no": "REQ690121/00005", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวจีราวรรณ จำปาเครือ", "recruit_type": "ปฏิบัติการ", "approve_date": "9-ก.พ.-2026", "sla": "45", "must_close_date": "26-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "29-ม.ค.-2026", "start_date": "9-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "12", "lead_time": "ไม่เกิน", "source": "JobThai", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "23", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "request_date": "3-ก.พ.-2026", "bu": "TVP-Ez", "department": "ขายบุคคลระยะสั้น สาขาอุดร", "position": "Vehical Service Agent(VSA)", "request_status": "มีใบคำขอ", "req_no": "REQ690203/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นายพุฒิพงษ์ วดีศิริศักดิ์", "recruit_type": "ปฏิบัติการ", "approve_date": "5-ก.พ.-2026", "sla": "45", "must_close_date": "22-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "6-มี.ค.-2026", "start_date": "9-มี.ค.-2026", "start_month": "มีนาคม", "actual_recruit_days": "30", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "24", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "มีนาคม", "request_date": "19-มี.ค.-2026", "bu": "TVP-Ez", "department": "ขายบุคคลระยะสั้น", "position": "Senior Rental Service Officer", "request_status": "มีใบคำขอ", "req_no": "REQ690319/00016", "rate_status": "ชะลอ/ยกเลิก", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "หัวหน้าทีม", "approve_date": "", "sla": "60", "must_close_date": "", "days_remaining": "", "days_recruiting": "", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "0", "lead_time": "", "source": "", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "25", "year": "2569", "responsible": "พจน์", "month": "กุมภาพันธ์", "request_date": "3-ก.พ.-2026", "bu": "TVP", "department": "ส่วนงานการเงิน", "position": "ผู้จัดการส่วนงานการเงิน", "request_status": "มีใบคำขอ", "req_no": "REQ690203/00001", "rate_status": "ชะลอ/ยกเลิก", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "ค้างรับ", "received_month": "มีนาคม", "received_count": "1", "employee_name": "", "recruit_type": "ผู้จัดการ", "approve_date": "5-ก.พ.-2026", "sla": "90", "must_close_date": "6-พ.ค.-2026", "days_remaining": "7", "days_recruiting": "-83", "contract_date": "1-มี.ค.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "25", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "26", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "request_date": "2-ก.พ.-2026", "bu": "TVP", "department": "ขายทีม I", "position": "ที่ปรึกษาการขายโครงการรถเช่า  ทีม I", "request_status": "มีใบคำขอ", "req_no": "REQ690202/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "ค้างรับ", "received_month": "เมษายน", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "3-ก.พ.-2026", "sla": "45", "must_close_date": "20-มี.ค.-2026", "days_remaining": "-40", "days_recruiting": "-85", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "58", "lead_time": "เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "27", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "request_date": "2-ก.พ.-2026", "bu": "TVP", "department": "ขายทีม I", "position": "ที่ปรึกษาการขายโครงการรถเช่า  ทีม I", "request_status": "มีใบคำขอ", "req_no": "REQ690202/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "ค้างรับ", "received_month": "เมษายน", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "3-ก.พ.-2026", "sla": "45", "must_close_date": "20-มี.ค.-2026", "days_remaining": "-40", "days_recruiting": "-85", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "58", "lead_time": "เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "28", "year": "2569", "responsible": "เจม", "month": "มกราคม", "request_date": "29-ม.ค.-2026", "bu": "TVP", "department": "ขายราชการ", "position": "พนักงานขับรถ(Driver)", "request_status": "มีใบคำขอ", "req_no": "REQ690129/00001", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นายประสิทธิ์ พยอม", "recruit_type": "ปฏิบัติการ", "approve_date": "29-ม.ค.-2026", "sla": "45", "must_close_date": "15-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "6-มี.ค.-2026", "start_date": "1-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "37", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "", "structure_type": "ทดแทนลาออก"}, {"no": "29", "year": "2569", "responsible": "เจม", "month": "มกราคม", "request_date": "28-ม.ค.-2026", "bu": "TVP", "department": "ฝ่ายนายหน้าประกันภัย", "position": "Telesales", "request_status": "มีใบคำขอ", "req_no": "REQ690128/00009", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวระพีพร โรจนประดิษฐ์", "recruit_type": "ปฏิบัติการ", "approve_date": "29-ม.ค.-2026", "sla": "45", "must_close_date": "15-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "9-มี.ค.-2026", "start_date": "11-มี.ค.-2026", "start_month": "มีนาคม", "actual_recruit_days": "40", "lead_time": "ไม่เกิน", "source": "Facebook", "responsible_unit": "หน่วยงาน", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "30", "year": "2569", "responsible": "พจน์", "month": "มกราคม", "request_date": "26-ม.ค.-2026", "bu": "TVP-Uc", "department": "ส่วนจัดซื้อ จัดจ้าง", "position": "เจ้าหน้าที่จัดซื้อ", "request_status": "มีใบคำขอ", "req_no": "REQ690126/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "ค้างรับ", "received_month": "มีนาคม", "received_count": "0", "employee_name": "นางสาวมณฑาทิพย์ ชาวบล", "recruit_type": "ปฏิบัติการ", "approve_date": "28-ม.ค.-2026", "sla": "45", "must_close_date": "14-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "24-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_recruit_days": "87", "lead_time": "เกิน", "source": "JobsDB", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "31", "year": "2569", "responsible": "เจม", "month": "มกราคม", "request_date": "26-ม.ค.-2026", "bu": "TVP-Uc", "department": "ขายรถยนต์มือสอง-ทีม1", "position": "ที่ปรึกษาการขาย (SCX)", "request_status": "มีใบคำขอ", "req_no": "REQ690126/00001", "rate_status": "ชะลอ/ยกเลิก", "employment_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวสุขภาดา ปลอดภัย", "recruit_type": "ปฏิบัติการ", "approve_date": "27-ม.ค.-2026", "sla": "45", "must_close_date": "13-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "0", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": ""}, {"no": "32", "year": "2569", "responsible": "เน", "month": "มกราคม", "request_date": "21-ม.ค.-2026", "bu": "TVP", "department": "ฝ่ายประกันภัยรถยนต์", "position": "เจ้าหน้าที่ธุรการ", "request_status": "มีใบคำขอ", "req_no": "REQ690121/00008", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวขนิษฐา  ทุงจันทร์", "recruit_type": "ปฏิบัติการ", "approve_date": "26-ม.ค.-2026", "sla": "45", "must_close_date": "12-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "29-ม.ค.-2026", "start_date": "5-ม.ค.-2026", "start_month": "มกราคม", "actual_recruit_days": "4", "lead_time": "ไม่เกิน", "source": "Facebook", "responsible_unit": "หน่วยงาน", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "33", "year": "2569", "responsible": "เน", "month": "มกราคม", "request_date": "21-ม.ค.-2026", "bu": "TVP", "department": "ส่วนงานทะเบียน", "position": "เจ้าหน้าที่ธุรการ", "request_status": "มีใบคำขอ", "req_no": "REQ690121/00007", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวรัตน์วลัย จันทร์สุโข", "recruit_type": "ปฏิบัติการ", "approve_date": "22-ม.ค.-2026", "sla": "45", "must_close_date": "8-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "30-ม.ค.-2026", "start_date": "2-ม.ค.-2026", "start_month": "มกราคม", "actual_recruit_days": "9", "lead_time": "ไม่เกิน", "source": "พนักงานเก่า", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "34", "year": "2569", "responsible": "เน", "month": "มกราคม", "request_date": "15-ม.ค.-2026", "bu": "TVP", "department": "ฝ่ายนายหน้าประกันภัย", "position": "Telesales", "request_status": "มีใบคำขอ", "req_no": "REQ690115/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางมณีรัตน์ เหมือนสมัย", "recruit_type": "ปฏิบัติการ", "approve_date": "16-ม.ค.-2026", "sla": "45", "must_close_date": "2-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "5-ก.พ.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "21", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "35", "year": "2569", "responsible": "เน", "month": "มกราคม", "request_date": "13-ม.ค.-2026", "bu": "TVP", "department": "ฝ่ายนายหน้าประกันภัย", "position": "Telesales", "request_status": "มีใบคำขอ", "req_no": "REQ690113/00004", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวรัมภา กิติบดี", "recruit_type": "ปฏิบัติการ", "approve_date": "16-ม.ค.-2026", "sla": "45", "must_close_date": "2-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "29-ม.ค.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "14", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "36", "year": "2569", "responsible": "เน", "month": "มกราคม", "request_date": "13-ม.ค.-2026", "bu": "TVP", "department": "ฝ่ายนายหน้าประกันภัย", "position": "Telesales", "request_status": "มีใบคำขอ", "req_no": "REQ690113/00003", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวภัคธินันท์ ชัยสุริยันฉัตร", "recruit_type": "ปฏิบัติการ", "approve_date": "16-ม.ค.-2026", "sla": "45", "must_close_date": "2-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "29-ม.ค.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "14", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "37", "year": "2569", "responsible": "เน", "month": "มกราคม", "request_date": "15-ม.ค.-2026", "bu": "TVP", "department": "ฝ่ายนายหน้าประกันภัย", "position": "Telesales", "request_status": "มีใบคำขอ", "req_no": "REQ690115/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางมณีรัตน์ เหมือนสมัย", "recruit_type": "ปฏิบัติการ", "approve_date": "16-ม.ค.-2026", "sla": "45", "must_close_date": "2-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "29-ม.ค.-2026", "start_date": "2-ก.พ.-2026", "start_month": "กุมภาพันธ์", "actual_recruit_days": "14", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "38", "year": "2569", "responsible": "เน", "month": "มกราคม", "request_date": "9-ม.ค.-2026", "bu": "TVP", "department": "ขายรถยนต์มือสอง-ทีม2", "position": "ที่ปรึกษาการขาย (SC)", "request_status": "มีใบคำขอ", "req_no": "REQ690109/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวกัญญาภัทร แจ่มจอน", "recruit_type": "ปฏิบัติการ", "approve_date": "12-ม.ค.-2026", "sla": "45", "must_close_date": "26-ก.พ.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "1-ม.ค.-2026", "start_date": "1-ม.ค.-2026", "start_month": "มกราคม", "actual_recruit_days": "12", "lead_time": "ไม่เกิน", "source": "ปรับเป็นประจำ/ฟรีแลนซ์", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "39", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "มกราคม", "request_date": "8-ม.ค.-2026", "bu": "TVP", "department": "ขายทีม A", "position": "ที่ปรึกษาการขายโครงการรถเช่า  ทีม A", "request_status": "มีใบคำขอ", "req_no": "REQ690105/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ", "extra_status": "ค้างรับ", "received_month": "เมษายน", "received_count": "1", "employee_name": "คุณวรภัทร", "recruit_type": "ปฏิบัติการ", "approve_date": "29-ม.ค.-2026", "sla": "45", "must_close_date": "15-มี.ค.-2026", "days_remaining": "-45", "days_recruiting": "-90", "contract_date": "1-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_recruit_days": "63", "lead_time": "เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "40", "year": "2569", "responsible": "พจน์", "month": "มกราคม", "request_date": "6-ม.ค.-2026", "bu": "TVP-Ez", "department": "ฝ่ายขายอีซี่คาร์ (Flexi ระยะสั้น)", "position": "Eazy Guide", "request_status": "มีใบคำขอ", "req_no": "REQ690106/00003", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "ค้างรับ", "received_month": "เมษายน", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "13-ม.ค.-2026", "sla": "45", "must_close_date": "27-ก.พ.-2026", "days_remaining": "-61", "days_recruiting": "-106", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "79", "lead_time": "เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "41", "year": "2569", "responsible": "ฟลุ๊ค", "month": "กุมภาพันธ์", "request_date": "13-ก.พ.-2026", "bu": "TVP", "department": "เทคโนโลยีสารสนเทศ", "position": "เจ้าหน้าที่พัฒนาระบบ", "request_status": "มีใบคำขอ", "req_no": "REQ690213/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นายพงศกร สุขชาลี", "recruit_type": "วิชาชีพ", "approve_date": "14-ก.พ.-2026", "sla": "60", "must_close_date": "15-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "26-ก.พ.-2026", "start_date": "1-เม.ย.-2026", "start_month": "เมษายน", "actual_recruit_days": "13", "lead_time": "ไม่เกิน", "source": "JobsDB", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "42", "year": "2569", "responsible": "พจน์", "month": "กุมภาพันธ์", "request_date": "24-ก.พ.-2026", "bu": "TVP-Uc", "department": "ส่วนงานบัญชี", "position": "เจ้าหน้าที่บัญชี(อาวุโส)", "request_status": "มีใบคำขอ", "req_no": "REQ690224/00006", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวประภาพร มณีนิล", "recruit_type": "ปฏิบัติการ", "approve_date": "27-ก.พ.-2026", "sla": "45", "must_close_date": "13-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "23-มี.ค.-2026", "start_date": "20-เม.ย.-2026", "start_month": "เมษายน", "actual_recruit_days": "25", "lead_time": "ไม่เกิน", "source": "JobThai", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "43", "year": "2569", "responsible": "พจน์", "month": "กุมภาพันธ์", "request_date": "24-ก.พ.-2026", "bu": "TVP", "department": "ส่วนงานการเงิน", "position": "เจ้าหน้าที่การเงิน", "request_status": "มีใบคำขอ", "req_no": "REQ690224/00007", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "ค้างรับ", "received_month": "มีนาคม", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "27-ก.พ.-2026", "sla": "45", "must_close_date": "13-เม.ย.-2026", "days_remaining": "-16", "days_recruiting": "-61", "contract_date": "1-มี.ค.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "3", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "44", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มีนาคม", "request_date": "4-มี.ค.-2026", "bu": "TVP", "department": "ฝ่ายซ่อมบำรุง", "position": "เจ้าหน้าที่วิเคราะห์งานซ่อม", "request_status": "มีใบคำขอ", "req_no": "REQ690304/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "ค้างรับ", "received_month": "เมษายน", "received_count": "1", "employee_name": "", "recruit_type": "วิชาชีพ", "approve_date": "13-มี.ค.-2026", "sla": "60", "must_close_date": "12-พ.ค.-2026", "days_remaining": "13", "days_recruiting": "-47", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "20", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "45", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "มีนาคม", "request_date": "4-มี.ค.-2026", "bu": "TVP", "department": "ฝ่ายพิจารณาสินเชื่อ", "position": "เจ้าหน้าที่พิจารณาสินเชื่อ", "request_status": "มีใบคำขอ", "req_no": "REQ690304/00001", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "", "sla": "45", "must_close_date": "-", "days_remaining": "45", "days_recruiting": "0", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "0", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "โครงสร้างใหม่(นอกแผนงบประมาณ)"}, {"no": "46", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "request_date": "26-ก.พ.-2026", "bu": "TVP", "department": "ส่วนงานบัญชี", "position": "เจ้าหน้าที่บัญชี", "request_status": "มีใบคำขอ", "req_no": "REQ690226/00005", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "นางสาวณัฐิตา มะลิพงศ์", "recruit_type": "ปฏิบัติการ", "approve_date": "27-ก.พ.-2026", "sla": "45", "must_close_date": "13-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "12-มี.ค.-2026", "start_date": "2-มี.ค.-2026", "start_month": "มีนาคม", "actual_recruit_days": "14", "lead_time": "ไม่เกิน", "source": "พนักงานเก่า", "responsible_unit": "Holding", "structure_type": "โครงสร้างใหม่(นอกแผนงบประมาณ)"}, {"no": "47", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "request_date": "26-ก.พ.-2026", "bu": "TVP", "department": "ขายรถยนต์มือสอง-ทีม2", "position": "ที่ปรึกษาการขาย (SC)", "request_status": "มีใบคำขอ", "req_no": "REQ690226/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวสุขภาดา ปลอดภัย", "recruit_type": "ปฏิบัติการ", "approve_date": "5-มี.ค.-2026", "sla": "45", "must_close_date": "19-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "1-ก.พ.-2026", "start_date": "9-มี.ค.-2026", "start_month": "มีนาคม", "actual_recruit_days": "33", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "48", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "request_date": "24-ก.พ.-2026", "bu": "TVP", "department": "ฝ่ายซ่อมบำรุง", "position": "เจ้าหน้าที่ธุรการงานซ่อม", "request_status": "มีใบคำขอ", "req_no": "REQ690224/00003", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "อยู่ระหว่างส่งประวัติ", "extra_status": "ค้างรับ", "received_month": "มีนาคม", "received_count": "", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "4-มี.ค.-2026", "sla": "45", "must_close_date": "18-เม.ย.-2026", "days_remaining": "-11", "days_recruiting": "-56", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "0", "lead_time": "ไม่เกิน", "source": "Facebook", "responsible_unit": "Holding", "structure_type": "โครงสร้างใหม่(นอกแผนงบประมาณ)"}, {"no": "49", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "กุมภาพันธ์", "request_date": "16-ก.พ.-2026", "bu": "TVP", "department": "ขายรถยนต์มือสอง-ทีม1", "position": "ที่ปรึกษาการขาย (SCX)", "request_status": "มีใบคำขอ", "req_no": "REQ690213/00003", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "นางสาวกัญญาภัทร แจ่มจอน", "recruit_type": "ปฏิบัติการ", "approve_date": "21-ก.พ.-2026", "sla": "45", "must_close_date": "7-เม.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "9-มี.ค.-2026", "start_date": "1-มี.ค.-2026", "start_month": "มีนาคม", "actual_recruit_days": "17", "lead_time": "ไม่เกิน", "source": "ปรับเป็นประจำ/ฟรีแลนซ์", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "50", "year": "2569", "responsible": "ฟลุ๊ค", "month": "กุมภาพันธ์", "request_date": "", "bu": "TVP", "department": "บิซโบรคเกอร์", "position": "Strategic Partnerships & BD.", "request_status": "ไม่มีใบคำขอ", "req_no": "", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "", "sla": "45", "must_close_date": "-", "days_remaining": "45", "days_recruiting": "0", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "46114", "lead_time": "เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "51", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "มีนาคม", "request_date": "", "bu": "TVP", "department": "ขายทีม B", "position": "ที่ปรึกษาการขายโครงการรถเช่า  ทีม B", "request_status": "ไม่มีใบคำขอ", "req_no": "", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "", "sla": "45", "must_close_date": "-", "days_remaining": "45", "days_recruiting": "0", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "46114", "lead_time": "เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "52", "year": "2569", "responsible": "พจน์", "month": "มีนาคม", "request_date": "10-มี.ค.-2026", "bu": "TVP", "department": "ส่วนงานบัญชี", "position": "ธุรการบัญชี", "request_status": "มีใบคำขอ", "req_no": "REQ690325/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นายภัทรศักดิ์ พลังสิริเจริญ", "recruit_type": "ปฏิบัติการ", "approve_date": "30-มี.ค.-2026", "sla": "45", "must_close_date": "14-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "31-มี.ค.-2026", "start_date": "6-เม.ย.-2026", "start_month": "เมษายน", "actual_recruit_days": "2", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "หน่วยงาน", "structure_type": "โครงสร้างใหม่(นอกแผนงบประมาณ)"}, {"no": "53", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มีนาคม", "request_date": "4-มี.ค.-2026", "bu": "TVP", "department": "ฝ่ายซ่อมบำรุง", "position": "เจ้าหน้าที่บริหารเครือข่ายและความสัมพันธ์ลูกค้าองค์กร", "request_status": "มีใบคำขอ", "req_no": "REQ690316/00007", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ", "extra_status": "ค้างรับ", "received_month": "เมษายน", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "18-มี.ค.-2026", "sla": "45", "must_close_date": "2-พ.ค.-2026", "days_remaining": "3", "days_recruiting": "-42", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "15", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "54", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มีนาคม", "request_date": "10-มี.ค.-2026", "bu": "TRP", "department": "ส่วนบัญชี-ด้านจ่ายค่าใช้จ่าย", "position": "เจ้าหน้าที่บัญชีอาวุโส (ด้านจ่ายค่าใช้จ่าย)", "request_status": "มีใบคำขอ", "req_no": "REQ690310/00004", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวอฤทัย มะโนชาติ", "recruit_type": "วิชาชีพ", "approve_date": "16-มี.ค.-2026", "sla": "60", "must_close_date": "15-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "24-มี.ค.-2026", "start_date": "1-เม.ย.-2026", "start_month": "เมษายน", "actual_recruit_days": "9", "lead_time": "ไม่เกิน", "source": "JobBKK", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "55", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มกราคม", "request_date": "1-ม.ค.-2026", "bu": "LAC-RA", "department": "ขายทีม A", "position": "ที่ปรึกษาการขาย (SC)", "request_status": "มีใบคำขอ", "req_no": "REQ661107/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาววรินทรลดา สิริจิรธันย์", "recruit_type": "ปฏิบัติการ", "approve_date": "31-ม.ค.-2026", "sla": "45", "must_close_date": "17-มี.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "15-ม.ค.-2026", "start_date": "12-มี.ค.-2026", "start_month": "มกราคม", "actual_recruit_days": "17", "lead_time": "ไม่เกิน", "source": "JobTH", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "56", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มีนาคม", "request_date": "16-มี.ค.-2026", "bu": "TRP", "department": "สำนักบริหาร", "position": "พนักงานขับรถผู้บริหาร", "request_status": "มีใบคำขอ", "req_no": "REQ690316/00003", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างส่งประวัติ", "extra_status": "ค้างรับ", "received_month": "เมษายน", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "17-มี.ค.-2026", "sla": "45", "must_close_date": "1-พ.ค.-2026", "days_remaining": "2", "days_recruiting": "-43", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "16", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "57", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มีนาคม", "request_date": "16-มี.ค.-2026", "bu": "TRP", "department": "สำนักกรรมการ", "position": "เลขานุการบริหาร", "request_status": "มีใบคำขอ", "req_no": "REQ690316/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวชุติกาญจน์ ชูเจริญ", "recruit_type": "ผู้จัดการ", "approve_date": "17-มี.ค.-2026", "sla": "90", "must_close_date": "15-มิ.ย.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "20-มี.ค.-2026", "start_date": "24-มี.ค.-2026", "start_month": "มีนาคม", "actual_recruit_days": "4", "lead_time": "ไม่เกิน", "source": "JobsDB", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "58", "year": "2569", "responsible": "พจน์", "month": "มีนาคม", "request_date": "20-มี.ค.-2026", "bu": "TVP", "department": "ส่วนงานบัญชี", "position": "เจ้าหน้าที่บัญชี(อาวุโส)", "request_status": "มีใบคำขอ", "req_no": "REQ690318/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวสุธีกานต์ ชื่นสุนทร", "recruit_type": "วิชาชีพ", "approve_date": "22-มี.ค.-2026", "sla": "60", "must_close_date": "21-พ.ค.-2026", "days_remaining": "", "days_recruiting": "", "contract_date": "20-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_recruit_days": "30", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "หน่วยงาน", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "59", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มีนาคม", "request_date": "23-มี.ค.-2026", "bu": "TRP", "department": "ตรวจสอบภายใน (IA)", "position": "เจ้าหน้าที่ตรวจสอบภายใน", "request_status": "มีใบคำขอ", "req_no": "REQ690323/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวพิมพิกา มาตยาคุณ", "recruit_type": "ปฏิบัติการ", "approve_date": "28-มี.ค.-2026", "sla": "45", "must_close_date": "12-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "27-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_recruit_days": "31", "lead_time": "ไม่เกิน", "source": "JobBKK", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "60", "year": "2569", "responsible": "ฟลุ๊ค", "month": "มีนาคม", "request_date": "24-มี.ค.-2026", "bu": "BIZ NEX", "department": "", "position": "Part Time", "request_status": "ไม่มีใบคำขอ", "req_no": "", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "", "sla": "45", "must_close_date": "", "days_remaining": "", "days_recruiting": "", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "0", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "Holding", "structure_type": ""}, {"no": "61", "year": "2569", "responsible": "พจน์", "month": "มีนาคม", "request_date": "20-มี.ค.-2026", "bu": "TVP", "department": "ส่วนงานบัญชี", "position": "เจ้าหน้าที่บัญชี(อาวุโส)", "request_status": "มีใบคำขอ", "req_no": "REQ690327/00004", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวณการฎา ชูจันทร์", "recruit_type": "ปฏิบัติการ", "approve_date": "31-มี.ค.-2026", "sla": "45", "must_close_date": "15-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "17-เม.ย.-2026", "start_date": "20-เม.ย.-2026", "start_month": "เมษายน", "actual_recruit_days": "18", "lead_time": "ไม่เกิน", "source": "JobThai", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "62", "year": "2569", "responsible": "พจน์", "month": "มีนาคม", "request_date": "20-มี.ค.-2026", "bu": "TVP", "department": "ส่วนงานบัญชี", "position": "เจ้าหน้าที่บัญชี(อาวุโส)", "request_status": "มีใบคำขอ", "req_no": "REQ690327/00003", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "กุลรัศมิ์ ศรีแก้ว", "recruit_type": "ปฏิบัติการ", "approve_date": "31-มี.ค.-2026", "sla": "45", "must_close_date": "15-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "2-เม.ย.-2026", "start_date": "4-พ.ค.-2026", "start_month": "พฤษภาคม", "actual_recruit_days": "3", "lead_time": "ไม่เกิน", "source": "JobsDB", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "63", "year": "2569", "responsible": "พจน์", "month": "เมษายน", "request_date": "2-เม.ย.-2026", "bu": "TVP", "department": "ขายบุคคลระยะสั้น สุขุมวิท", "position": "Senior Sales Operation Officer", "request_status": "ไม่มีใบคำขอ", "req_no": "", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "นายชัชฤทธิ์ วิสุทธิ์เทพ", "recruit_type": "หัวหน้าทีม", "approve_date": "", "sla": "60", "must_close_date": "-", "days_remaining": "60", "days_recruiting": "0", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "0", "lead_time": "ไม่เกิน", "source": "JobThai", "responsible_unit": "", "structure_type": ""}, {"no": "64", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "มีนาคม", "request_date": "26-มี.ค.-2026", "bu": "TVP", "department": "ขายบุคคลระยะสั้น สาขาเชียงใหม่", "position": "Senior Rental Service Officer", "request_status": "มีใบคำขอ", "req_no": "REQ690326/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "นางสาวปาริชาติ รินดวง", "recruit_type": "หัวหน้าทีม", "approve_date": "27-มี.ค.-2026", "sla": "60", "must_close_date": "26-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "3-เม.ย.-2026", "start_date": "1-เม.ย.-2026", "start_month": "เมษายน", "actual_recruit_days": "8", "lead_time": "ไม่เกิน", "source": "JobThai", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "65", "year": "2568", "responsible": "พจน์", "month": "มกราคม", "request_date": "1-ม.ค.-2026", "bu": "TVP", "department": "ฝ่ายขายอีซี่คาร์ (ทีม 1)", "position": "Eazy Guide", "request_status": "มีใบคำขอ", "req_no": "REQ690401/00006", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "ค้างรับ", "received_month": "เมษายน", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "3-เม.ย.-2026", "sla": "45", "must_close_date": "18-พ.ค.-2026", "days_remaining": "19", "days_recruiting": "-26", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "3", "lead_time": "ไม่เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "66", "year": "2569", "responsible": "ฟลุ๊ค", "month": "เมษายน", "request_date": "9-เม.ย.-2026", "bu": "TVP-Ez", "department": "ฝ่ายขายอีซี่คาร์ (Flexi ระยะสั้น)", "position": "พนักงานปฏิบัติการรถเช่า", "request_status": "มีใบคำขอ", "req_no": "REQ690409/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "0", "employee_name": "ภานุวัฒน์ ใจบุญ", "recruit_type": "ปฏิบัติการ", "approve_date": "16-เม.ย.-2026", "sla": "45", "must_close_date": "31-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "17-เม.ย.-2026", "start_date": "20-เม.ย.-2026", "start_month": "เมษายน", "actual_recruit_days": "1", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "67", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "เมษายน", "request_date": "8-เม.ย.-2026", "bu": "TVP-Ez", "department": "ขายทีม D", "position": "ที่ปรึกษาการขายโครงการรถเช่า ทีม D", "request_status": "มีใบคำขอ", "req_no": "REQ690408/00005", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างส่งประวัติ", "extra_status": "", "received_month": "", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "21-เม.ย.-2026", "sla": "45", "must_close_date": "5-มิ.ย.-2026", "days_remaining": "37", "days_recruiting": "-8", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "--", "lead_time": "-", "source": "", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "68", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "เมษายน", "request_date": "7-เม.ย.-2026", "bu": "TVP", "department": "ขายราชการ", "position": "พนักงานขับรถ(Driver)", "request_status": "มีใบคำขอ", "req_no": "REQ690407/00002", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "รับเข้าทำงาน", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "นายบุญธรรม สิกขา", "recruit_type": "ปฏิบัติการ", "approve_date": "8-เม.ย.-2026", "sla": "45", "must_close_date": "23-พ.ค.-2026", "days_remaining": "-", "days_recruiting": "0", "contract_date": "17-เม.ย.-2026", "start_date": "1-เม.ย.-2026", "start_month": "เมษายน", "actual_recruit_days": "9", "lead_time": "ไม่เกิน", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "69", "year": "2569", "responsible": "พจน์", "month": "เมษายน", "request_date": "10-เม.ย.-2026", "bu": "TVP", "department": "ฝ่ายขายอีซี่คาร์ (Flexi ระยะสั้น)", "position": "Eazy Guide", "request_status": "มีใบคำขอ", "req_no": "REQ690401/00007", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "16-เม.ย.-2026", "sla": "45", "must_close_date": "31-พ.ค.-2026", "days_remaining": "32", "days_recruiting": "-13", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "--", "lead_time": "-", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "70", "year": "2569", "responsible": "พจน์", "month": "เมษายน", "request_date": "17-เม.ย.-2026", "bu": "TVP", "department": "ฝ่ายขายอีซี่คาร์ (Flexi ระยะสั้น)", "position": "Eazy Guide", "request_status": "มีใบคำขอ", "req_no": "REQ690417/00001", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "1", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "23-เม.ย.-2026", "sla": "45", "must_close_date": "7-มิ.ย.-2026", "days_remaining": "39", "days_recruiting": "-6", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "--", "lead_time": "-", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "71", "year": "2569", "responsible": "พจน์", "month": "เมษายน", "request_date": "21-เม.ย.-2026", "bu": "TVP", "department": "ฝ่ายการตลาดอีซี่คาร์", "position": "ผู้เชี่ยวชาญด้านกราฟิกดีไซน์", "request_status": "ไม่มีใบคำขอ", "req_no": "", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "หัวหน้าทีม", "approve_date": "", "sla": "60", "must_close_date": "-", "days_remaining": "60", "days_recruiting": "0", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "46113", "lead_time": "เกิน", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "72", "year": "2569", "responsible": "พจน์", "month": "เมษายน", "request_date": "21-เม.ย.-2026", "bu": "TVP", "department": "ขายบุคคลระยะสั้น สุขุมวิท", "position": "เจ้าหน้าที่พัฒนาธุรกิจ", "request_status": "มีใบคำขอ", "req_no": "REQ690421/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "", "sla": "45", "must_close_date": "-", "days_remaining": "45", "days_recruiting": "0", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "--", "lead_time": "-", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "73", "year": "2569", "responsible": "พจน์", "month": "เมษายน", "request_date": "21-เม.ย.-2026", "bu": "TVP", "department": "ขายบุคคลระยะสั้น สุขุมวิท", "position": "เจ้าหน้าที่พัฒนาธุรกิจ", "request_status": "มีใบคำขอ", "req_no": "REQ690421/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "", "sla": "45", "must_close_date": "-", "days_remaining": "45", "days_recruiting": "0", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "--", "lead_time": "-", "source": "", "responsible_unit": "หน่วยงาน", "structure_type": "ทดแทนลาออก"}, {"no": "74", "year": "2569", "responsible": "ฟลุ๊ค", "month": "เมษายน", "request_date": "20-เม.ย.-2026", "bu": "TRP", "department": "สำนักกรรมการ", "position": "เลขานุการบริหาร", "request_status": "ไม่มีใบคำขอ", "req_no": "REQ690316/00002", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ผู้จัดการ", "approve_date": "", "sla": "90", "must_close_date": "-", "days_remaining": "90", "days_recruiting": "0", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "46114", "lead_time": "เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "75", "year": "2569", "responsible": "พจน์", "month": "เมษายน", "request_date": "23-เม.ย.-2026", "bu": "TVP", "department": "", "position": "Sale Manager", "request_status": "ไม่มีใบคำขอ", "req_no": "", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ผู้จัดการ", "approve_date": "", "sla": "90", "must_close_date": "-", "days_remaining": "90", "days_recruiting": "0", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "46113", "lead_time": "เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "76", "year": "2569", "responsible": "พจน์", "month": "เมษายน", "request_date": "23-เม.ย.-2026", "bu": "TVP", "department": "", "position": "Sale", "request_status": "ไม่มีใบคำขอ", "req_no": "", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "", "sla": "45", "must_close_date": "-", "days_remaining": "45", "days_recruiting": "0", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "46113", "lead_time": "เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "77", "year": "2569", "responsible": "พจน์", "month": "เมษายน", "request_date": "23-เม.ย.-2026", "bu": "TVP", "department": "", "position": "Sale", "request_status": "ไม่มีใบคำขอ", "req_no": "", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "", "sla": "45", "must_close_date": "-", "days_remaining": "45", "days_recruiting": "0", "contract_date": "1-เม.ย.-2026", "start_date": "", "start_month": "", "actual_recruit_days": "46113", "lead_time": "เกิน", "source": "", "responsible_unit": "Holding", "structure_type": "โครงสร้างตามแผนงบประมาณ"}, {"no": "78", "year": "2569", "responsible": "พจน์", "month": "เมษายน", "request_date": "24-เม.ย.-2026", "bu": "TVP", "department": "ฝ่ายการตลาดอีซี่คาร์", "position": "ผู้อำนวยการฝ่ายการตลาด", "request_status": "มีใบคำขอ", "req_no": "REQ690424/00001", "rate_status": "ชะลอ/ยกเลิก", "employment_type": "Permanent", "recruit_status": "ชะลอ/ยกเลิก", "extra_status": "", "received_month": "", "received_count": "1", "employee_name": "", "recruit_type": "ผู้จัดการ", "approve_date": "", "sla": "90", "must_close_date": "-", "days_remaining": "90", "days_recruiting": "0", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "--", "lead_time": "-", "source": "Agency", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "79", "year": "2569", "responsible": "ฟลุ๊ค", "month": "เมษายน", "request_date": "23-เม.ย.-2026", "bu": "TVP", "department": "เทคโนโลยีสารสนเทศ", "position": "IT Infrastructure Officer", "request_status": "มีใบคำขอ", "req_no": "REQ690423/00003", "rate_status": "ขอ", "employment_type": "Permanent", "recruit_status": "อยู่ระหว่างสรรหา", "extra_status": "", "received_month": "", "received_count": "1", "employee_name": "", "recruit_type": "วิชาชีพ", "approve_date": "24-เม.ย.-2026", "sla": "60", "must_close_date": "23-มิ.ย.-2026", "days_remaining": "55", "days_recruiting": "-5", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "--", "lead_time": "-", "source": "", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}, {"no": "80", "year": "2569", "responsible": "จ๋อมแจ๋ม", "month": "เมษายน", "request_date": "28-เม.ย.-2026", "bu": "TVP", "department": "ขายราชการ", "position": "พนักงานขับรถ(Driver)", "request_status": "มีใบคำขอ", "req_no": "REQ690428/00002", "rate_status": "ขอ", "employment_type": "Temporary", "recruit_status": "เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ", "extra_status": "", "received_month": "", "received_count": "", "employee_name": "", "recruit_type": "ปฏิบัติการ", "approve_date": "28-เม.ย.-2026", "sla": "45", "must_close_date": "12-มิ.ย.-2026", "days_remaining": "44", "days_recruiting": "-1", "contract_date": "", "start_date": "", "start_month": "", "actual_recruit_days": "--", "lead_time": "-", "source": "หัวหน้างาน / เพื่อน แนะนำ", "responsible_unit": "Holding", "structure_type": "ทดแทนลาออก"}];
 
-// Pending now excludes ชะลอ/ยกเลิก
-const isPending = r => r.add_status === 'ค้างรับ' && r.recruit_status !== CANCELED;
+// Helpers
+const $ = (id) => document.getElementById(id);
 
-const byOwner = {};
-const allOwners = [];
-DATA.forEach(r => {
-  if (!byOwner[r.owner]) { byOwner[r.owner] = []; allOwners.push(r.owner); }
-  byOwner[r.owner].push(r);
-});
-
-const total = DATA.length;
-const pending = DATA.filter(isPending);
-const hired = DATA.filter(r => r.recruit_status === 'รับเข้าทำงาน');
-const recruiting = DATA.filter(r => r.recruit_status === 'อยู่ระหว่างสรรหา');
-const negotiating = DATA.filter(r => r.recruit_status === 'เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ');
-const sending = DATA.filter(r => r.recruit_status === 'อยู่ระหว่างส่งประวัติ');
-const canceled = DATA.filter(r => r.recruit_status === CANCELED);
-
-// HERO STATS
-document.getElementById('hero-stats').innerHTML = `
-  <div class="stat-pill"><div class="label">คำขอทั้งหมด</div><div class="value">${total}</div><div class="delta">ปี 2568-2569</div></div>
-  <div class="stat-pill"><div class="label">ค้างรับ (ต้องเร่ง)</div><div class="value danger">${pending.length}</div><div class="delta">ไม่นับชะลอ/ยกเลิก</div></div>
-  <div class="stat-pill"><div class="label">รับเข้าแล้ว</div><div class="value success">${hired.length}</div><div class="delta">${Math.round(hired.length/total*100)}% ของทั้งหมด</div></div>
-  <div class="stat-pill"><div class="label">อยู่ระหว่างดำเนินการ</div><div class="value warning">${recruiting.length + negotiating.length + sending.length}</div><div class="delta">In progress</div></div>
-`;
-
-// Team
-function pendingFor(o) { return (byOwner[o]||[]).filter(isPending); }
-function hiredFor(o) { return (byOwner[o]||[]).filter(r => r.recruit_status==='รับเข้าทำงาน'); }
-const sortedOwners = allOwners.slice().sort((a,b) => pendingFor(b).length - pendingFor(a).length);
-document.getElementById('team-grid').innerHTML = sortedOwners.map(owner => {
-  const t = (byOwner[owner]||[]).length;
-  const p = pendingFor(owner).length;
-  const h = hiredFor(owner).length;
-  return `<div class="team-card" data-owner="${owner}">
-    <div class="team-head">
-      <div class="avatar">${owner.charAt(0)}</div>
-      <div>
-        <div class="team-name">${owner}</div>
-        <div class="team-role">HR Recruiter</div>
-      </div>
-    </div>
-    <div class="team-stats">
-      <div class="team-stat"><div class="num">${t}</div><div class="lbl">ทั้งหมด</div></div>
-      <div class="team-stat"><div class="num danger">${p}</div><div class="lbl">ค้างรับ</div></div>
-      <div class="team-stat"><div class="num success">${h}</div><div class="lbl">ปิดแล้ว</div></div>
-    </div>
-    <div class="team-cta">ดูรายการค้างรับ</div>
-  </div>`;
-}).join('');
-
-const detailPanel = document.getElementById('detail-panel');
-const detailTitle = document.getElementById('detail-title');
-const pendingList = document.getElementById('pending-list');
-
-function statusClass(s) {
-  if (s==='รับเข้าทำงาน') return 'hired';
-  if (s==='อยู่ระหว่างสรรหา') return 'recruiting';
-  if (s==='เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ') return 'negotiating';
-  if (s==='อยู่ระหว่างส่งประวัติ') return 'sending';
-  if (s===CANCELED) return 'canceled';
-  return '';
-}
-function statusColor(s) {
-  if (s==='รับเข้าทำงาน') return '#10b981';
-  if (s==='อยู่ระหว่างสรรหา') return '#f59e0b';
-  if (s==='เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ') return '#8b5cf6';
-  if (s==='อยู่ระหว่างส่งประวัติ') return '#3b82f6';
-  if (s===CANCELED) return '#ef4444';
-  return '#6b7280';
+function getReqStatusBadge(s) {
+  if (s === 'มีใบคำขอ') return '<span class="badge bg-green-100 text-green-700">มีใบคำขอ</span>';
+  if (s === 'ไม่มีใบคำขอ') return '<span class="badge bg-red-100 text-red-700">ไม่มีใบคำขอ</span>';
+  return '<span class="badge bg-gray-100 text-gray-700">' + (s || '-') + '</span>';
 }
 
-function selectOwner(owner) {
-  document.querySelectorAll('.team-card').forEach(c => c.classList.remove('active'));
-  if (owner) {
-    const el = document.querySelector(`.team-card[data-owner="${owner}"]`);
-    if (el) el.classList.add('active');
-  }
-  const items = pendingFor(owner);
-  detailTitle.innerHTML = `🚨 <span>ตำแหน่งที่ <strong style="color:var(--primary)">"${owner}"</strong> ยังค้างรับอยู่ทั้งหมด <strong style="color:var(--danger)">${items.length}</strong> ตำแหน่ง</span>`;
-  if (items.length === 0) {
-    pendingList.innerHTML = '<div class="empty-state">🎉 ไม่มีอัตราค้างรับ</div>';
-  } else {
-    pendingList.innerHTML = items.map(r => `
-      <div class="pending-item" style="--st-color:${statusColor(r.recruit_status)}">
-        <div class="pending-pos">${r.position}</div>
-        <div class="pending-dept">📍 ${r.dept}</div>
-        <div class="meta-row">
-          <span class="chip bu">${r.bu}</span>
-          <span class="chip ${statusClass(r.recruit_status)}">${r.recruit_status}</span>
-          ${r.req_date ? `<span class="chip">ร้องขอ: ${r.req_date}</span>` : ''}
-          ${r.days_remaining && r.days_remaining !== '-' ? `<span class="chip ${parseInt(r.days_remaining)<0?'danger':''}">คงเหลือ: ${r.days_remaining} วัน</span>` : ''}
-          ${r.emp_type ? `<span class="chip">${r.emp_type}</span>` : ''}
+function getRecruitBadge(s) {
+  const map = {
+    'รับเข้าทำงาน': 'bg-green-100 text-green-700',
+    'อยู่ระหว่างสรรหา': 'bg-yellow-100 text-yellow-700',
+    'อยู่ระหว่างส่งประวัติ': 'bg-blue-100 text-blue-700',
+    'เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ': 'bg-purple-100 text-purple-700',
+    'ชะลอ/ยกเลิก': 'bg-gray-200 text-gray-700'
+  };
+  const cls = map[s] || 'bg-gray-100 text-gray-700';
+  return '<span class="badge ' + cls + '">' + (s || '-') + '</span>';
+}
+
+function getSLABadge(lt, days) {
+  if (lt === 'เกิน') return '<span class="badge bg-red-100 text-red-700">เกิน SLA</span>';
+  if (lt === 'ไม่เกิน') return '<span class="badge bg-green-100 text-green-700">ไม่เกิน</span>';
+  return '<span class="badge bg-gray-100 text-gray-600">-</span>';
+}
+
+function getDaysRemainingDisplay(d) {
+  if (!d || d === '-') return '<span class="text-gray-400">-</span>';
+  const num = parseInt(d);
+  if (isNaN(num)) return '<span class="text-gray-400">-</span>';
+  if (num < 0) return '<span class="text-red-600 font-bold">' + num + '</span>';
+  if (num <= 7) return '<span class="text-orange-600 font-bold">' + num + '</span>';
+  return '<span class="text-gray-700">' + num + '</span>';
+}
+
+// Today
+const today = new Date();
+$('todayDate').textContent = today.toLocaleDateString('th-TH', {year: 'numeric', month: 'long', day: 'numeric'});
+
+// KPIs
+function calcKPIs() {
+  const total = DATA.length;
+  const hired = DATA.filter(r => r.recruit_status === 'รับเข้าทำงาน').length;
+  const inProgress = DATA.filter(r => ['อยู่ระหว่างสรรหา', 'อยู่ระหว่างส่งประวัติ', 'เจรจาค่าจ้าง/อยู่ระหว่างจัดรับ'].includes(r.recruit_status)).length;
+  const overdue = DATA.filter(r => r.lead_time === 'เกิน').length;
+  const cancelled = DATA.filter(r => r.recruit_status === 'ชะลอ/ยกเลิก').length;
+  $('kpiTotal').textContent = total;
+  $('kpiHired').textContent = hired;
+  $('kpiInProgress').textContent = inProgress;
+  $('kpiOverdue').textContent = overdue;
+  $('kpiCancelled').textContent = cancelled;
+}
+
+// Person Cards
+function renderPersonCards() {
+  const persons = {};
+  DATA.forEach(r => {
+    if (!persons[r.responsible]) persons[r.responsible] = {total:0, pending:0, hired:0, cancelled:0, overdue:0};
+    persons[r.responsible].total++;
+    if (r.recruit_status === 'รับเข้าทำงาน') persons[r.responsible].hired++;
+    else if (r.recruit_status === 'ชะลอ/ยกเลิก') persons[r.responsible].cancelled++;
+    else persons[r.responsible].pending++;
+    if (r.lead_time === 'เกิน') persons[r.responsible].overdue++;
+  });
+  
+  const colors = ['from-blue-500 to-indigo-600', 'from-pink-500 to-rose-600', 'from-emerald-500 to-teal-600', 'from-amber-500 to-orange-600', 'from-violet-500 to-purple-600'];
+  const html = Object.keys(persons).map((name, idx) => {
+    const p = persons[name];
+    const c = colors[idx % colors.length];
+    return `
+      <div class="person-card bg-gradient-to-br ${c} text-white rounded-2xl p-5" onclick="openPersonModal('${name}')">
+        <div class="flex items-center justify-between">
+          <div class="text-3xl">👤</div>
+          <div class="text-right">
+            <div class="text-2xl font-bold">${p.pending}</div>
+            <div class="text-xs opacity-90">ค้างสรรหา</div>
+          </div>
         </div>
-      </div>`).join('');
-  }
-  detailPanel.classList.add('show');
-  detailPanel.scrollIntoView({behavior:'smooth', block:'nearest'});
-  filters.owner = owner;
-  renderFilters(); renderTable();
+        <div class="mt-3">
+          <div class="font-bold text-lg">${name}</div>
+          <div class="text-xs opacity-90 mt-1">รวม ${p.total} ตำแหน่ง</div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-white border-opacity-30 grid grid-cols-3 gap-2 text-center text-xs">
+          <div><div class="font-bold">${p.hired}</div><div class="opacity-80">รับแล้ว</div></div>
+          <div><div class="font-bold">${p.cancelled}</div><div class="opacity-80">ยกเลิก</div></div>
+          <div><div class="font-bold">${p.overdue}</div><div class="opacity-80">เกิน SLA</div></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  $('personCards').innerHTML = html;
 }
 
-document.querySelectorAll('.team-card').forEach(card => {
-  card.addEventListener('click', () => {
-    const owner = card.dataset.owner;
-    if (card.classList.contains('active')) {
-      detailPanel.classList.remove('show');
-      card.classList.remove('active');
-      filters.owner = null;
-      renderFilters(); renderTable();
-    } else { selectOwner(owner); }
+// Charts
+function renderCharts() {
+  // Request status
+  const reqCounts = {};
+  DATA.forEach(r => { reqCounts[r.request_status||'-'] = (reqCounts[r.request_status||'-']||0)+1; });
+  new Chart($('chartRequest'), {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(reqCounts),
+      datasets: [{
+        data: Object.values(reqCounts),
+        backgroundColor: ['#10b981', '#ef4444', '#94a3b8'],
+      }]
+    },
+    options: {responsive: true, plugins: {legend:{position:'bottom'}}}
   });
-});
-
-// Status / BU bars
-const statuses = [
-  { name: 'รับเข้าทำงาน', count: hired.length, cls: 'hired' },
-  { name: 'อยู่ระหว่างสรรหา', count: recruiting.length, cls: 'recruiting' },
-  { name: 'เจรจาค่าจ้าง', count: negotiating.length, cls: 'negotiating' },
-  { name: 'ส่งประวัติ', count: sending.length, cls: 'sending' },
-  { name: 'ชะลอ/ยกเลิก', count: canceled.length, cls: 'canceled' },
-];
-const maxStatus = Math.max(...statuses.map(s=>s.count));
-document.getElementById('status-bars').innerHTML = statuses.map(s =>
-  `<div class="bar-row"><div>${s.name}</div><div class="bar-bg"><div class="bar-fill ${s.cls}" style="width:${(s.count/maxStatus)*100}%"></div></div><div class="bar-value">${s.count}</div></div>`
-).join('');
-
-const buCounts = {};
-DATA.forEach(r => { buCounts[r.bu] = (buCounts[r.bu]||0)+1; });
-const buEntries = Object.entries(buCounts).sort((a,b) => b[1]-a[1]);
-const maxBu = Math.max(...buEntries.map(e=>e[1]));
-document.getElementById('bu-bars').innerHTML = buEntries.map(([bu,c]) =>
-  `<div class="bar-row"><div>${bu||'-'}</div><div class="bar-bg"><div class="bar-fill" style="width:${(c/maxBu)*100}%"></div></div><div class="bar-value">${c}</div></div>`
-).join('');
-
-// SLA
-function computeSLA(items) {
-  let onTime=0, late=0, daysSum=0, daysN=0;
-  items.forEach(r => {
-    if (r.lead_time === 'ไม่เกิน') onTime++;
-    else if (r.lead_time === 'เกิน') late++;
-    const d = parseInt(r.actual_days);
-    if (!isNaN(d) && d > 0) { daysSum += d; daysN++; }
+  
+  // Recruit status
+  const recCounts = {};
+  DATA.forEach(r => { recCounts[r.recruit_status||'-'] = (recCounts[r.recruit_status||'-']||0)+1; });
+  new Chart($('chartRecruit'), {
+    type: 'bar',
+    data: {
+      labels: Object.keys(recCounts),
+      datasets: [{
+        label: 'จำนวน',
+        data: Object.values(recCounts),
+        backgroundColor: ['#10b981', '#f59e0b', '#3b82f6', '#a855f7', '#94a3b8'],
+        borderRadius: 8
+      }]
+    },
+    options: {responsive: true, plugins: {legend:{display:false}}, scales:{y:{beginAtZero:true}}}
   });
-  return { onTime, late, total: onTime+late, avgDays: daysN>0 ? Math.round(daysSum/daysN) : 0 };
+  
+  // SLA
+  const slaCounts = {'ไม่เกิน':0, 'เกิน':0, 'รอประเมิน':0};
+  DATA.forEach(r => {
+    if (r.lead_time === 'ไม่เกิน') slaCounts['ไม่เกิน']++;
+    else if (r.lead_time === 'เกิน') slaCounts['เกิน']++;
+    else slaCounts['รอประเมิน']++;
+  });
+  new Chart($('chartSLA'), {
+    type: 'pie',
+    data: {
+      labels: Object.keys(slaCounts),
+      datasets: [{
+        data: Object.values(slaCounts),
+        backgroundColor: ['#10b981', '#ef4444', '#94a3b8'],
+      }]
+    },
+    options: {responsive: true, plugins: {legend:{position:'bottom'}}}
+  });
+  
+  // BU
+  const buCounts = {};
+  DATA.forEach(r => { 
+    const bu = r.bu||'อื่นๆ';
+    buCounts[bu] = (buCounts[bu]||0)+1; 
+  });
+  new Chart($('chartBU'), {
+    type: 'bar',
+    data: {
+      labels: Object.keys(buCounts),
+      datasets: [{
+        label: 'ตำแหน่ง',
+        data: Object.values(buCounts),
+        backgroundColor: '#6366f1',
+        borderRadius: 8
+      }]
+    },
+    options: {indexAxis:'y', responsive: true, plugins: {legend:{display:false}}, scales:{x:{beginAtZero:true}}}
+  });
 }
-const allSLA = computeSLA(DATA);
-const onPct = allSLA.total ? Math.round(allSLA.onTime/allSLA.total*100) : 0;
-document.getElementById('sla-overview').innerHTML = `
-  <div class="sla-stat" style="--bg:#d1fae5;--fg:#065f46">
-    <div class="icon">✓</div>
-    <div class="label">ปิดทันภายใน SLA</div>
-    <div class="val" style="color:#059669">${allSLA.onTime}</div>
-    <div class="foot">${onPct}% ของงานที่ปิดได้</div>
-  </div>
-  <div class="sla-stat" style="--bg:#fee2e2;--fg:#991b1b">
-    <div class="icon">!</div>
-    <div class="label">เกิน SLA</div>
-    <div class="val" style="color:#dc2626">${allSLA.late}</div>
-    <div class="foot">${100-onPct}% ของงานที่ปิดได้</div>
-  </div>
-  <div class="sla-stat" style="--bg:#dbeafe;--fg:#1e40af">
-    <div class="icon">⏱</div>
-    <div class="label">วันเฉลี่ยที่ใช้สรรหา</div>
-    <div class="val" style="color:#1e40af">${allSLA.avgDays}</div>
-    <div class="foot">วัน/ตำแหน่ง</div>
-  </div>
-  <div class="sla-stat" style="--bg:#ede9fe;--fg:#5b21b6">
-    <div class="icon">📊</div>
-    <div class="label">% On-Time Overall</div>
-    <div class="val" style="color:#7c3aed">${onPct}%</div>
-    <div class="foot">เป้าหมาย ≥ 70%</div>
-  </div>
-`;
-document.getElementById('sla-grid').innerHTML = sortedOwners.map(owner => {
-  const items = byOwner[owner] || [];
-  const s = computeSLA(items);
-  const pct = s.total ? Math.round(s.onTime/s.total*100) : 0;
-  const okW = s.total ? (s.onTime/s.total*100) : 0;
-  const lateW = s.total ? (s.late/s.total*100) : 0;
-  const color = pct >= 70 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
-  return `<div class="sla-card">
-    <div class="sla-name">${owner}<span class="sla-pct" style="color:${color}">${pct}%</span></div>
-    <div class="sla-bar">
-      <div class="ok" style="width:${okW}%"></div>
-      <div class="late" style="width:${lateW}%"></div>
-    </div>
-    <div class="sla-meta">
-      <span>ปิดทัน <strong style="color:#10b981">${s.onTime}</strong></span>
-      <span>เกิน <strong style="color:#ef4444">${s.late}</strong></span>
-      <span>เฉลี่ย <strong>${s.avgDays}</strong>วัน</span>
-    </div>
-  </div>`;
-}).join('');
 
 // Filters
-const filters = { owner: null, bu: null, month: null, status: null };
-const monthOrder = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
-
-function applyFilters(list) {
-  return list.filter(r =>
-    (!filters.owner || r.owner === filters.owner) &&
-    (!filters.bu || r.bu === filters.bu) &&
-    (!filters.month || r.month === filters.month) &&
-    (!filters.status || r.recruit_status === filters.status)
-  );
-}
-
-function renderFilters() {
-  const allBUs = Array.from(new Set(pending.map(r => r.bu))).filter(Boolean);
-  const allMonths = Array.from(new Set(pending.map(r => r.month))).filter(Boolean).sort((a,b)=>monthOrder.indexOf(a)-monthOrder.indexOf(b));
-  const allStatuses = Array.from(new Set(pending.map(r => r.recruit_status))).filter(Boolean);
-  const fb = document.getElementById('filters-block');
-  fb.innerHTML = `
-    <div class="filter-group">
-      <span class="filter-label">HR:</span>
-      ${['ทั้งหมด',...allOwners].map(o => {
-        const a = (o==='ทั้งหมด' && !filters.owner) || o===filters.owner;
-        return `<div class="filter-pill ${a?'active':''}" data-type="owner" data-val="${o}">${o}${o!=='ทั้งหมด'?` (${pendingFor(o).length})`:''}</div>`;
-      }).join('')}
-    </div>
-    <div class="filter-group">
-      <span class="filter-label">BU:</span>
-      ${['ทั้งหมด',...allBUs].map(o => {
-        const a = (o==='ทั้งหมด' && !filters.bu) || o===filters.bu;
-        const c = pending.filter(r=>r.bu===o).length;
-        return `<div class="filter-pill ${a?'active':''}" data-type="bu" data-val="${o}">${o}${o!=='ทั้งหมด'?` (${c})`:''}</div>`;
-      }).join('')}
-    </div>
-    <div class="filter-group">
-      <span class="filter-label">เดือน:</span>
-      ${['ทั้งหมด',...allMonths].map(o => {
-        const a = (o==='ทั้งหมด' && !filters.month) || o===filters.month;
-        const c = pending.filter(r=>r.month===o).length;
-        return `<div class="filter-pill ${a?'active':''}" data-type="month" data-val="${o}">${o}${o!=='ทั้งหมด'?` (${c})`:''}</div>`;
-      }).join('')}
-    </div>
-    <div class="filter-group">
-      <span class="filter-label">สถานะ:</span>
-      ${['ทั้งหมด',...allStatuses].map(o => {
-        const a = (o==='ทั้งหมด' && !filters.status) || o===filters.status;
-        const c = pending.filter(r=>r.recruit_status===o).length;
-        return `<div class="filter-pill ${a?'active':''}" data-type="status" data-val="${o}">${o}${o!=='ทั้งหมด'?` (${c})`:''}</div>`;
-      }).join('')}
-      ${(filters.owner||filters.bu||filters.month||filters.status)?'<div class="filter-pill reset" data-type="reset" data-val="reset">✕ ล้างตัวกรอง</div>':''}
-    </div>
-  `;
-  fb.querySelectorAll('.filter-pill').forEach(p => {
-    p.addEventListener('click', () => {
-      const type = p.dataset.type, v = p.dataset.val;
-      if (type === 'reset') {
-        filters.owner=filters.bu=filters.month=filters.status=null;
-        document.querySelectorAll('.team-card').forEach(c=>c.classList.remove('active'));
-        detailPanel.classList.remove('show');
-      } else {
-        filters[type] = (v==='ทั้งหมด') ? null : v;
-        if (type==='owner') {
-          if (filters.owner) selectOwner(filters.owner);
-          else { document.querySelectorAll('.team-card').forEach(c=>c.classList.remove('active')); detailPanel.classList.remove('show'); }
-        }
-      }
-      renderFilters(); renderTable();
-    });
-  });
+function populateFilters() {
+  const persons = [...new Set(DATA.map(r => r.responsible).filter(Boolean))];
+  const reqStatuses = [...new Set(DATA.map(r => r.request_status).filter(Boolean))];
+  const recStatuses = [...new Set(DATA.map(r => r.recruit_status).filter(Boolean))];
+  
+  $('filterPerson').innerHTML = '<option value="">ผู้รับผิดชอบทั้งหมด</option>' + persons.map(p => `<option value="${p}">${p}</option>`).join('');
+  $('filterRequest').innerHTML = '<option value="">สถานะใบคำขอทั้งหมด</option>' + reqStatuses.map(p => `<option value="${p}">${p}</option>`).join('');
+  $('filterRecruit').innerHTML = '<option value="">สถานะสรรหาทั้งหมด</option>' + recStatuses.map(p => `<option value="${p}">${p}</option>`).join('');
 }
 
 function renderTable() {
-  let list = applyFilters(pending);
-  list = list.slice().sort((a,b) => {
-    const da = parseInt(a.days_remaining); const db = parseInt(b.days_remaining);
-    return (isNaN(da)?9999:da) - (isNaN(db)?9999:db);
+  const search = $('searchBox').value.toLowerCase();
+  const fp = $('filterPerson').value;
+  const fr = $('filterRequest').value;
+  const frc = $('filterRecruit').value;
+  const fs = $('filterSLA').value;
+  
+  const filtered = DATA.filter(r => {
+    if (fp && r.responsible !== fp) return false;
+    if (fr && r.request_status !== fr) return false;
+    if (frc && r.recruit_status !== frc) return false;
+    if (fs && r.lead_time !== fs) return false;
+    if (search) {
+      const blob = (r.position + ' ' + r.department + ' ' + r.bu + ' ' + r.req_no + ' ' + r.employee_name).toLowerCase();
+      if (!blob.includes(search)) return false;
+    }
+    return true;
   });
-  const tbody = document.getElementById('tbody');
-  const sum = document.getElementById('filter-summary');
-  const af = [];
-  if (filters.owner) af.push(`HR=<strong>${filters.owner}</strong>`);
-  if (filters.bu) af.push(`BU=<strong>${filters.bu}</strong>`);
-  if (filters.month) af.push(`เดือน=<strong>${filters.month}</strong>`);
-  if (filters.status) af.push(`สถานะ=<strong>${filters.status}</strong>`);
-  sum.innerHTML = `📊 พบ <strong>${list.length}</strong> ตำแหน่งค้างรับ (ไม่นับชะลอ/ยกเลิก)${af.length?' • ตัวกรอง: '+af.join(' + '):''}`;
-
-  if (list.length === 0) { tbody.innerHTML = `<tr><td colspan="10" class="empty-state">ไม่พบรายการที่ตรงตัวกรอง</td></tr>`; return; }
-  tbody.innerHTML = list.map(r => {
-    const dr = parseInt(r.days_remaining);
-    const drStyle = (!isNaN(dr) && dr<0) ? 'color:var(--danger);font-weight:700' : (!isNaN(dr) && dr<=15 ? 'color:var(--warning);font-weight:600' : '');
-    return `<tr>
-      <td>${r.no}</td>
-      <td><strong>${r.owner}</strong></td>
-      <td><span class="chip bu">${r.bu}</span></td>
-      <td>${r.month}</td>
-      <td style="font-size:12px;color:var(--gray-500)">${r.dept}</td>
-      <td><strong>${r.position}</strong></td>
-      <td><span class="chip ${statusClass(r.recruit_status)}">${r.recruit_status}</span></td>
-      <td>${r.req_date}</td>
-      <td>${r.sla}</td>
-      <td style="${drStyle}">${r.days_remaining}</td>
-    </tr>`;
-  }).join('');
+  
+  $('resultCount').textContent = filtered.length;
+  
+  const html = filtered.map(r => `
+    <tr class="table-row border-b border-gray-100">
+      <td class="px-3 py-3 text-gray-500">${r.no}</td>
+      <td class="px-3 py-3 font-medium text-gray-800">${r.responsible}</td>
+      <td class="px-3 py-3"><span class="badge bg-indigo-100 text-indigo-700">${r.bu||'-'}</span></td>
+      <td class="px-3 py-3 text-gray-700 max-w-xs">${r.department||'-'}</td>
+      <td class="px-3 py-3 font-medium text-gray-800 max-w-xs">${r.position||'-'}</td>
+      <td class="px-3 py-3">${getReqStatusBadge(r.request_status)}</td>
+      <td class="px-3 py-3">${getRecruitBadge(r.recruit_status)}</td>
+      <td class="px-3 py-3 text-center">${getSLABadge(r.lead_time, r.days_remaining)}</td>
+      <td class="px-3 py-3 text-center">${getDaysRemainingDisplay(r.days_remaining)}</td>
+    </tr>
+  `).join('');
+  
+  $('tableBody').innerHTML = html || '<tr><td colspan="9" class="text-center py-8 text-gray-400">ไม่พบรายการ</td></tr>';
 }
 
-renderFilters();
-renderTable();
+// Modal
+let currentPerson = '';
+let currentTab = 'pending';
 
-// Active nav highlighting on scroll
-const sections = ['overview','team','analytics','sla','pending'];
-const navLinks = document.querySelectorAll('.nav-link');
-window.addEventListener('scroll', () => {
-  const y = window.scrollY + 120;
-  let active = '';
-  document.querySelectorAll('section.block').forEach(s => {
-    if (s.offsetTop <= y) active = s.id;
-  });
-  navLinks.forEach(l => {
-    l.classList.toggle('active', l.getAttribute('href') === '#' + active);
+function openPersonModal(name) {
+  currentPerson = name;
+  currentTab = 'pending';
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === 'pending'));
+  
+  const items = DATA.filter(r => r.responsible === name);
+  const pending = items.filter(r => !['รับเข้าทำงาน', 'ชะลอ/ยกเลิก'].includes(r.recruit_status));
+  const hired = items.filter(r => r.recruit_status === 'รับเข้าทำงาน');
+  const cancelled = items.filter(r => r.recruit_status === 'ชะลอ/ยกเลิก');
+  const overdue = items.filter(r => r.lead_time === 'เกิน').length;
+  
+  $('modalTitle').textContent = '👤 ' + name;
+  $('modalSubtitle').textContent = `รวม ${items.length} ตำแหน่ง • ค้างสรรหา ${pending.length} • รับแล้ว ${hired.length} • ยกเลิก ${cancelled.length}`;
+  
+  $('modalStats').innerHTML = `
+    <div class="bg-indigo-50 p-3 rounded-xl">
+      <div class="text-xs text-indigo-600 font-medium">ตำแหน่งทั้งหมด</div>
+      <div class="text-2xl font-bold text-indigo-700">${items.length}</div>
+    </div>
+    <div class="bg-amber-50 p-3 rounded-xl">
+      <div class="text-xs text-amber-600 font-medium">ค้างสรรหา</div>
+      <div class="text-2xl font-bold text-amber-700">${pending.length}</div>
+    </div>
+    <div class="bg-green-50 p-3 rounded-xl">
+      <div class="text-xs text-green-600 font-medium">รับเข้าแล้ว</div>
+      <div class="text-2xl font-bold text-green-700">${hired.length}</div>
+    </div>
+    <div class="bg-red-50 p-3 rounded-xl">
+      <div class="text-xs text-red-600 font-medium">เกิน SLA</div>
+      <div class="text-2xl font-bold text-red-700">${overdue}</div>
+    </div>
+  `;
+  
+  $('tabCountPending').textContent = '(' + pending.length + ')';
+  $('tabCountHired').textContent = '(' + hired.length + ')';
+  $('tabCountCancelled').textContent = '(' + cancelled.length + ')';
+  $('tabCountAll').textContent = '(' + items.length + ')';
+  
+  renderModalContent();
+  $('personModal').classList.add('active');
+}
+
+function renderModalContent() {
+  const items = DATA.filter(r => r.responsible === currentPerson);
+  let list;
+  if (currentTab === 'pending') list = items.filter(r => !['รับเข้าทำงาน', 'ชะลอ/ยกเลิก'].includes(r.recruit_status));
+  else if (currentTab === 'hired') list = items.filter(r => r.recruit_status === 'รับเข้าทำงาน');
+  else if (currentTab === 'cancelled') list = items.filter(r => r.recruit_status === 'ชะลอ/ยกเลิก');
+  else list = items;
+  
+  if (list.length === 0) {
+    $('modalContent').innerHTML = '<div class="text-center py-8 text-gray-400">ไม่พบรายการในหมวดนี้</div>';
+    return;
+  }
+  
+  $('modalContent').innerHTML = list.map(r => `
+    <div class="border border-gray-200 rounded-xl p-4 hover:bg-gray-50 fade-in">
+      <div class="flex items-start justify-between flex-wrap gap-2">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="badge bg-indigo-100 text-indigo-700">#${r.no}</span>
+            <span class="badge bg-purple-100 text-purple-700">${r.bu||'-'}</span>
+            ${getReqStatusBadge(r.request_status)}
+            ${getRecruitBadge(r.recruit_status)}
+            ${getSLABadge(r.lead_time, r.days_remaining)}
+          </div>
+          <div class="font-bold text-gray-800 mt-2 text-base">${r.position||'-'}</div>
+          <div class="text-sm text-gray-600 mt-1">🏢 ${r.department||'-'}</div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-3 text-xs">
+            <div><span class="text-gray-500">ใบคำขอ:</span> <span class="font-medium">${r.req_no||'-'}</span></div>
+            <div><span class="text-gray-500">วันที่ร้องขอ:</span> <span class="font-medium">${r.request_date||'-'}</span></div>
+            <div><span class="text-gray-500">SLA:</span> <span class="font-medium">${r.sla||'-'} วัน</span></div>
+            <div><span class="text-gray-500">วันคงเหลือ:</span> ${getDaysRemainingDisplay(r.days_remaining)}</div>
+            <div><span class="text-gray-500">วันต้องปิด:</span> <span class="font-medium">${r.must_close_date||'-'}</span></div>
+            <div><span class="text-gray-500">พนักงาน:</span> <span class="font-medium">${r.employee_name||'-'}</span></div>
+            <div><span class="text-gray-500">ประเภท:</span> <span class="font-medium">${r.employment_type||'-'}</span></div>
+            <div><span class="text-gray-500">โครงสร้าง:</span> <span class="font-medium">${r.structure_type||'-'}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function closeModal() {
+  $('personModal').classList.remove('active');
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTab = btn.dataset.tab;
+    renderModalContent();
   });
 });
+
+$('personModal').addEventListener('click', (e) => {
+  if (e.target.id === 'personModal') closeModal();
+});
+
+// Filter events
+['searchBox','filterPerson','filterRequest','filterRecruit','filterSLA'].forEach(id => {
+  $(id).addEventListener('input', renderTable);
+  $(id).addEventListener('change', renderTable);
+});
+$('resetBtn').addEventListener('click', () => {
+  ['searchBox','filterPerson','filterRequest','filterRecruit','filterSLA'].forEach(id => $(id).value = '');
+  renderTable();
+});
+
+// Init
+calcKPIs();
+renderPersonCards();
+renderCharts();
+populateFilters();
+renderTable();
 </script>
+
 </body>
 </html>
